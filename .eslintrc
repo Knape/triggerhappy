@@ -1,0 +1,33 @@
+{
+  "extends": ["airbnb-base", "plugin:flowtype/recommended"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "forOf": true,
+      "es6": true,
+      "experimentalObjectRestSpread" : true
+    },
+  },
+  "rules": {
+    "comma-dangle": 0,
+    "object-curly-spacing" : 0,
+    "arrow-body-style": 0,
+    "no-console": 0,
+    "max-len": 0,
+    "prefer-template": 0,
+    "import/no-unresolved": 0,
+    "global-require": 0,
+    "no-underscore-dangle": 0
+  },
+  "plugins": [
+    "flowtype"
+  ],
+  "globals": {
+  }
+}
