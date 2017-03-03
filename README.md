@@ -27,7 +27,7 @@ th.fire('MouseEvent', 'click', center) // -> event
 import th from 'triggerhappy';
 
 // fire a touch event at 20% top and left of an image
-const imgCenter = th.position(document.querySelector('img), 20, 20);
+const imgCenter = th.position(document.querySelector('img'), 20, 20);
 th.fire('MouseEvent', 'click', imgCenter) // -> event
 ```
 
