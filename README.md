@@ -1,10 +1,25 @@
 # Triggerhappy
 
-> Easily create native events for testing purposes
+> **Triggerhappy -** Easily create native events and event animations, mostly for testing purposes
 
 ## Description
 
 Triggerhappy lets you create custom javascript events easily without all the boilerplate it usaully requires. Need to test touchevents or mousemove events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
+
+
+## Features
+* Create barebone events with a single line
+* Create custom event animations with support for multiple events
+* Support for all kind of touch, mouse and keyboard scenarios. Like drag, pinch etc
+
+## Installation
+
+Install the package from [npm](https://npmjs.com/release)
+
+```bash
+npm install --save-dev triggerhappy
+```
+
 
 ## Usage
 
@@ -65,6 +80,8 @@ th.spray([clipOne, clipTwo], {
 ```
 
 ## API
+
+> The API is still in heavy development, so dont hesitate to create a pull request
 
 ## Fire
 
@@ -289,6 +306,13 @@ th.spray(clip, {
 
 ### th.position(element)
 ### center(element, position)
+
+## Contribute
+
+1. Fork this repository to your own GitHub account and then clone it to your local device
+2. Install dependencies using npm
+3. Make the necessary changes and ensure that the tests are passing using `npm run test`
+4. Send a pull request 🙌
 
 ## License
 
