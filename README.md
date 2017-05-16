@@ -35,7 +35,7 @@ import th from 'triggerhappy';
 
 // fire a click event at center of screen
 const center = th.center(window);
-th.fire('MouseEvent', 'click', center) // -> event
+th.fire('MouseEvent', 'click', document, center) // -> event
 ```
 
 ```es6
@@ -43,7 +43,7 @@ import th from 'triggerhappy';
 
 // fire a touch event at 20% top and left of an image
 const imgCenter = th.position(document.querySelector('img'), 20, 20);
-th.fire('MouseEvent', 'click', imgCenter) // -> event
+th.fire('MouseEvent', 'click', document, imgCenter) // -> event
 ```
 
 ```es6
@@ -65,8 +65,8 @@ th.spray(clip, {
 import th from 'triggerhappy';
 
 // Simulate a pinch out effect
-const clipOne = th.load('TouchEvent', 'touchmove');
-const clipTwo = th.load('TouchEvent', 'touchmove');
+const clipOne = th.load('TouchEvent', 'touchmove', document, center());
+const clipTwo = th.load('TouchEvent', 'touchmove', document, center());
 th.spray([clipOne, clipTwo], {
 	path: (events) => (
 		// Returns an array of evente in. the same order
