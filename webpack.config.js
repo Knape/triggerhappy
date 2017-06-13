@@ -16,7 +16,7 @@ if (!DEV_MODE) {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: falsgite
+        warnings: false
       }
     })
   );

@@ -21,7 +21,7 @@
     "test": "NODE_ENV=production node_modules/.bin/karma start test/karma.conf.js",
     "test:watch": "NODE_ENV=development node_modules/.bin/karma start test/karma.conf.js",
     "demo:watch": "webpack-dev-server --inline --config ./webpack.config.js --content-base docs --port 3050 --host 0.0.0.0",
-    "demo:build": "NODE_ENV=production node_modules/.bin/webpack --config ./webpack/webpack.config.js",
+    "demo:build": "NODE_ENV=production node_modules/.bin/webpack --config ./webpack.config.js",
     "prepublish": "npm run lint && npm run build"
   },
   "devDependencies": {
@@ -61,8 +61,10 @@
     "karma-spec-reporter": "0.0.30",
     "karma-webpack": "^2.0.0",
     "mocha": "^2.2.5",
+    "panjs": "^0.6.5",
+    "pinchit": "^0.6.2",
     "prismjs": "^1.6.0",
-    "sinon": "1.17.7",
+    "sinon": "^2.3.4",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.1",
     "unminified-webpack-plugin": "^1.2.0",
