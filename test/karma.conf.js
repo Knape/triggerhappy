@@ -16,6 +16,7 @@ if (process.env.TRAVIS) {
   console.log('On Travis sending coveralls');
   coverageReporters.push({type: 'lcov', subdir: 'coverage'});
   reporters.push('coveralls');
+  browsers = Object.keys('Firefox');
 } else {
   console.log('Not on Travis so not sending coveralls');
   coverageReporters.push({type: 'html', subdir: 'coverage'});
