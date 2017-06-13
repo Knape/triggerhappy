@@ -9,7 +9,7 @@ const reporters = [
   'coverage',
 ];
 
-let browsers = ['Chrome']; // for local builds
+let browsers = ['Chrome', 'Firefox']; // for local builds
 const sauceLaunchers = require('./saucelab_browsers');
 
 if (process.env.TRAVIS) {

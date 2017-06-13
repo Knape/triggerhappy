@@ -76,7 +76,9 @@ const createTouch = (element: HTMLElement | Document, options) => {
     target: element
   }));
 
-  return new Touch(eventParams);
+  // return new Touch(eventParams);
+  // Revert back to plain object untill we have a proper way to handle touch in firefox
+  return eventParams;
 };
 
 /**
