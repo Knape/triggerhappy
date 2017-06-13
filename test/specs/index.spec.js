@@ -1,16 +1,36 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import th from '../../src/';
+import th, { fire, load, spray, rampage, position } from '../../src/';
 
-describe('panjs()', () => {
+describe('th', () => {
   before(() => {});
 
   beforeEach(() => {});
 
   afterEach(() => {});
 
-  it('has to be a function', () => {
-    expect(typeof th).to.eql('function');
+  it('has to be an object', () => {
+    expect(typeof th).to.eql('object');
+  });
+
+  it('should contain methods, fire()', () => {
+    expect(typeof fire).to.eql('function');
+  });
+
+  it('should contain methods, load()', () => {
+    expect(typeof load).to.eql('function');
+  });
+
+  it('should contain methods, spray()', () => {
+    expect(typeof spray).to.eql('function');
+  });
+
+  it('should contain methods, rampage()', () => {
+    expect(typeof rampage).to.eql('function');
+  });
+
+  it('should contain util methods, position()', () => {
+    expect(typeof position).to.eql('function');
   });
 });

@@ -9,11 +9,21 @@ export default {
   clientY: 0,
   ctrl: false,
   detail: 1,
-  key: 0,
+  key: '13',
+  isTrusted: true,
   meta: false,
+  pageX: 0,
+  pageY: 0,
   relatedTarget: null,
+  touches: [],
   screenX: 0,
   screenY: 0,
   shift: false,
   view: window
+};
+
+export const eventMap = {
+  MouseEvent: ['click', 'dblclick', 'mouseup', 'mousedown', 'mouseenter', 'mousemove', 'mouseleave'],
+  KeyboardEvent: ['keypress', 'keydown', 'keyup'],
+  TouchEvent: ['touchstart', 'touchmove', 'touchend', 'touchcancel']
 };

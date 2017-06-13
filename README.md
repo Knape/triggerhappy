@@ -1,16 +1,16 @@
 # Triggerhappy
 
-> **Triggerhappy -** Easily create native events and event animations, mostly for testing purposes
+> **Triggerhappy -** Easily create native events and event animations, mostly for testing purposes. Both for node and the browser
 
 ## Description
 
-Triggerhappy lets you create custom javascript events easily without all the boilerplate it usaully requires. Need to test touchevents or mousemove events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
+Triggerhappy lets you create custom javascript events easily without all the boilerplate it usaully requires. Need to test touch events, keyboard events or mouse events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
 
 
 ## Features
-* Create barebone events with a single line
+* Create a barebone events with a single line
 * Create custom event animations with support for multiple events
-* Support for all kind of touch, mouse and keyboard scenarios. Like drag, pinch etc
+* Helper functions for getting the clientX, clientY position, converting keyCodes etc
 
 ## Installation
 
@@ -26,14 +26,14 @@ npm install --save-dev triggerhappy
 ```es6
 import th from 'triggerhappy';
 
-// fire a click event at 0x0 poisiton
+// fires a click event at 0x0 relative to elements position
 th.fire('MouseEvent', 'click') // -> event
 ```
 
 ```es6
 import th from 'triggerhappy';
 
-// fire a click event at center of screen
+// fires a click event at center of screen
 const center = th.center(window);
 th.fire('MouseEvent', 'click', document, center) // -> event
 ```
@@ -41,41 +41,58 @@ th.fire('MouseEvent', 'click', document, center) // -> event
 ```es6
 import th from 'triggerhappy';
 
-// fire a touch event at 20% top and left of an image
-const imgCenter = th.position(document.querySelector('img'), 20, 20);
-th.fire('MouseEvent', 'click', document, imgCenter) // -> event
+// fire a touch event at 20% top and left of the image
+const image = document.querySelector('img');
+const imgCenter = th.position(image, {x: 20, y: 20});
+th.fire('MouseEvent', 'click', image, imgCenter) // -> event
 ```
 
 ```es6
 import th from 'triggerhappy';
 
-// Simulate a drag horizotal effect
+// Simulate a drag horizotal effect (one finger)
+th.fire('TouchEvent', 'touchstart');
 const clip = th.load('TouchEvent', 'touchmove');
 th.spray(clip, {
-	path: ({clientX, clientX}) => ({
-		// do something with the events
-		// and return a new clientX and clientY
-		clientX: clientX += 1,
-		clientY: clientY,
-	})
+	path: ({touches}) => {
+		// Always good to extend the object so we
+		// return the same keys
+		return touches: touches.map((touch, i) => {
+			return Object.assign({}, touch, {
+				// do something with the events
+				// and return a new clientX and clientY
+				clientX: touch.clientX + 1,
+				clientY: touch.clientY,
+			});
+		})
+	}
+}).then((e) => {
+	th.fire('TouchEvent', 'touchend', document, e);
 });
 ```
 
 ```es6
-import th from 'triggerhappy';
+import th, { touches, center } from 'triggerhappy';
 
 // Simulate a pinch out effect
-const clipOne = th.load('TouchEvent', 'touchmove', document, center());
-const clipTwo = th.load('TouchEvent', 'touchmove', document, center());
-th.spray([clipOne, clipTwo], {
-	path: (events) => (
-		// Returns an array of evente in. the same order
-		// as we pass our clips
-		events.map({clientX, clientY}, i) => ({
-			clientX: (i === 1) ? clientX += 1 : clientX -= 1,
-			clientY: (i === 1) ? clientY += 1 : clientY -= 1,
-		}))
-	)
+const img = document.querySelector('img');
+const touches = th.touches(th.position(img, {x: 40, y: 50}), th.position(img, {x: 60, y: 50}))
+th.fire('TouchEvent', 'touchstart', img);
+const clip = th.load('TouchEvent', 'touchmove', img, touches);
+th.spray(clip, {
+	path: ({touches}) => ({
+		// Always good to extend the object so we
+		// return the same keys
+		return touches: touches.map((touch, i) => {
+			return Object.assign({}, touch, {
+				// move one finger to the left and one to the right
+				clientX: (i === 1) ? touch.clientX + 1 : touch.clientX - 1,
+				clientY: (i === 1) ? touch.clientY + 1 : touch.clientY - 1,
+			})
+		})
+	})
+}).then((e) => {
+	th.fire('TouchEvent', 'touchend', img, e);
 });
 ```
 
@@ -101,7 +118,7 @@ th.fire('MouseEvent', 'click', document, {
 For the moment the type can either be `MouseEvent`, `TouchEvent` or `KeybordEvent`
 
 * **required:** ```true```
-* **default value:** ```Event```
+* **default value:** ```MouseEvent```
 
 #### triggerName ```String```
 Depends on the current eventName passed to `th.fire`
@@ -109,7 +126,7 @@ Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event
 
 
 * **required:** ```true```
-* **default value:** ```null```
+* **default value:** ```click```
 
 #### Element ```Node```
 Element that the event should fire on, defaults to `document`
@@ -146,7 +163,7 @@ const clip = th.load('MouseEvent', document, {
 For the moment the eventName can either be `MouseEvent`, `TouchEvent` or `KeybordEvent`
 
 * **required:** ```true```
-* **default value:** ```Event```
+* **default value:** ```MouseEvent```
 
 #### triggerName ```String```
 Depends on the current eventName passed to `th.fire`
@@ -154,7 +171,7 @@ Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event
 
 
 * **required:** ```true```
-* **default value:** ```null```
+* **default value:** ```click```
 
 #### Element ```Node```
 Element that the event should fire on, defaults to `document`
@@ -177,23 +194,23 @@ For a full list of passable options, see the [MDN documentation](https://develop
 
 ### th.spray(loadInstance, [options])
 
-> The spray method is intended yo emulate a constant behavour, for example a pinch or a drag.
+> The spray method is intended to emulate a constant behavior, for example a pinch or a drag.
 
 ```es6
-const clip = th.load('MouseEvent');
+const clip = th.load('MouseEvent', 'click');
 th.spray(clip)
-.then(() => {);
+.then((event) => {});
 ```
 
 **returns:** ```Promise<Object>``` Last event triggered
 
 
 
-#### loadInstance ```Function | Array<Function>```
+#### loadInstance ```Function```
 Pass the returned function from load to spray either as a pure function or as an array of functions. Passing an array is usefull for testing multituch behavours.
 
 * **required:** ```true```
-* **default value:** ```Event```
+* **default value:** ```null```
 
 ### Options ```Object```
 
@@ -205,7 +222,7 @@ const clip = th.load('TouchEvent', 'touchmove', {clientX, clientY});
 th.spray(clip, {
 	speed: 10,
 	steps: 10,
-	path: {x: 1, y: 1}
+	path: (event) => (event),
 	tick: () => {},
 })
 .then(({clientX, clientY}) => {
@@ -249,15 +266,15 @@ th.spray(clip, {
 ```
 Will be called 10 times before exiting
 
-### path `Array<Object> | Function<Object>`
+### path `Object | Function<Object>`
 
-Defines the path that each event itteration will use
+Defines the path that each event iteration will use. See /example folder for more
 
 ```es6
 // Simulate a double click
 const clip = th.load('MouseEvent', 'click');
 th.spray(clip, {
-	path: [{clientX:50, clientY: 50}, {clientX:50, clientY: 50}]
+	path: {clientX:50, clientY: 50}
 });
 ```
 
@@ -273,39 +290,120 @@ th.spray(clip, {
 		clientY: clientY,
 	})
 });
+```
 
+
+```es6
 // Simulate a pinch out effect
-const clipOne = th.load('TouchEvent', 'touchmove');
-const clipTwo = th.load('TouchEvent', 'touchmove');
-th.spray([clipOne, clipTwo], {
-	path: (events) => (
+const clip = th.load('TouchEvent', 'touchmove', document, touches(center(), center()));
+th.spray(clip, {
+	path: ({touches}) => ({
 		// Returns an array of evente in. the same order
 		// as we pass our clips
-		events.map({clientX, clientY}, i) => ({
+		touches: touches.map({clientX, clientY}, i) => ({
 			clientX: (i === 1) ? clientX += 1 : clientX -= 1,
 			clientY: (i === 1) ? clientY += 1 : clientY -= 1,
 		}))
-	)
+	})
 });
 ```
 
 ### tick `Function`
 
-Callback function for each event that gets fired, get called after the event has been fired
+Callback function for each event that gets fired, get called last after the event has been fired
+Return true to exit the spray function, good for doing calculation instead of steps.
 
 ```es6
 const clip = th.load('MouseEvent', 'click');
 th.spray(clip, {
+	times: Infinitive,
 	tick: (event) => {
 		// do something with the event
+		// return true to exit the spray function
 	}
 })
 ```
 
 ## Utils
 
-### th.position(element)
-### center(element, position)
+### th.position(element, positionObject)
+
+> Utility function for getting an elements position
+
+```es6
+const img = document.querySelector('img');
+th.position(img, {
+  x: 0, y: 10
+});
+```
+
+**returns:** ```Object```
+Return an object containing: clientX, clientY, pageX, pageY
+
+#### element ```HTMLElement```
+Supply the HTMLElement you want the position to be based on
+
+* **required:** ```true```
+* **default value:** ```Null```
+
+#### positionObject ```Object```
+Supply an object with x and y keys where the values represent the percentage where we should get our position value
+
+* **required:** ```true```
+* **default value:** ```Null```
+
+### center(element)
+
+> Utility function for getting an elements center position
+
+```es6
+const img = document.querySelector('img');
+th.center(img);
+```
+
+**returns:** ```Object```
+Return an object containing: clientX, clientY, pageX, pageY
+
+#### element ```HTMLElement```
+Supply the HTMLElement you want the position to be based on
+
+* **required:** ```true```
+* **default value:** ```Null```
+
+### touches(Array)
+
+> Utility function for creating a touch node list
+
+```es6
+const img = document.querySelector('img');
+th.touches(position(img, { x: 49, y: 49}), position(img, { x: 51, y: 51}));
+```
+
+**returns:** ```Object```
+Return an object containing: clientX, clientY, pageX, pageY
+
+#### element ```Array<Object>```
+Supply an array of Objects containing your touch-points (recommended to use center or position for each object)
+
+* **required:** ```true```
+* **default value:** ```[]```
+
+### keyCode(keycode)
+
+> Utility function for creating/converting a keycode
+
+```es6
+th.keyCode('13')); // => 'enter'
+th.keyCode('enter')); // => '13'
+```
+
+**returns:** ```string```
+
+#### keycode ```string```
+either supp,y the name of the letter or the number it represent
+
+* **required:** ```true```
+* **default value:** ```null```
 
 ## Contribute
 

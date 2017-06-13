@@ -1,23 +1,24 @@
 // Karma configuration
 // Generated on Wed Mar 18 2015 11:41:18 GMT+0800 (CST)
 
-const coverage_reporters = [
+const coverageReporters = [
   { type: 'text-summary' },
 ];
 const reporters = [
-  'spec',
+  'progress',
   'coverage',
 ];
-var browsers = ['Firefox']; // for local builds
-var sauceLaunchers = require('./saucelab_browsers');
+
+let browsers = ['Chrome']; // for local builds
+const sauceLaunchers = require('./saucelab_browsers');
 
 if (process.env.TRAVIS) {
   console.log('On Travis sending coveralls');
-  coverage_reporters.push( { type : 'lcov', subdir : 'coverage' } );
+  coverageReporters.push({type: 'lcov', subdir: 'coverage'});
   reporters.push('coveralls');
 } else {
   console.log('Not on Travis so not sending coveralls');
-  coverage_reporters.push( { type : 'html', subdir : 'coverage' } );
+  coverageReporters.push({type: 'html', subdir: 'coverage'});
 }
 if (process.env.SAUCE_USERNAME) {
   console.log('Will use sauceLabs');
@@ -38,6 +39,10 @@ module.exports = (config) => {
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai', 'fixture'],
 
     client: {
+      captureConsole: true,
+      config: {
+        browserConsoleLogOptions: true
+      },
       chai: {
         includeStack: true
       }
@@ -45,7 +50,7 @@ module.exports = (config) => {
 
     // list of files / patterns to load in the browser
     files: [{
-      pattern: 'test/specs/*.js',
+      pattern: 'test/**/*.js',
       included: true,
       watched: !process.env.TRAVIS || process.env.NODE_ENV !== 'production'
     }, {
@@ -66,6 +71,7 @@ module.exports = (config) => {
     preprocessors: {
       'test/**/*.js': ['webpack', 'sourcemap'],
       'test/*.html': ['html2js'],
+      'src/*.js': ['eslint'],
     },
 
     webpack: {
@@ -97,11 +103,14 @@ module.exports = (config) => {
       'karma-sinon-chai',
       'karma-sinon',
       'karma-coveralls',
+      'karma-eslint',
       'karma-sourcemap-loader',
       'karma-fixture',
       'karma-sauce-launcher',
       'karma-html2js-preprocessor',
       'karma-firefox-launcher',
+      'karma-safari-launcher',
+      'karma-chrome-launcher',
       'karma-phantomjs-launcher',
       'istanbul-instrumenter-loader',
     ],
@@ -109,11 +118,11 @@ module.exports = (config) => {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: reporters,
+    reporters,
 
     coverageReporter: {
       dir: 'test',
-      reporters: coverage_reporters,
+      reporters: coverageReporters,
     },
 
     // web server port
@@ -131,7 +140,7 @@ module.exports = (config) => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: browsers,
+    browsers,
 
     customLaunchers: sauceLaunchers,
 
