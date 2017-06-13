@@ -6,10 +6,10 @@ import { position, isElement, hasKeys } from './utils';
 const matchAndAddition = (extObj: Object = {}) => (acc, key) => {
   switch (typeof acc[key]) {
     case 'string':
-      acc[key] = extObj[key] || acc[key];
+      acc[key] = extObj[key] || acc[key]; // eslint-disable-line
       break;
     case 'number':
-      acc[key] = (key !== 'key') ?
+      acc[key] = (key !== 'key') ? // eslint-disable-line
         acc[key] + extObj[key] || 0 :
         extObj[key] || 0;
       break;

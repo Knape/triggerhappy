@@ -4,7 +4,7 @@ import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
 import { first, isElement } from './utils';
 
-const fixKeyCode = (e: KeyboardEvent, options: Object) => {
+const fixKeyCode = (e: KeyboardEvent, options: Object) => { // eslint-disable-line
   // http://stackoverflow.com/a/10520017
   if (e.keyCode !== options.key) {
     Object.defineProperty(e, 'keyCode', ({
@@ -22,7 +22,7 @@ const fixKeyCode = (e: KeyboardEvent, options: Object) => {
   }
 };
 
-const createEventType = (eventName: string = 'MouseEvent', type: string = 'click', props: Object = {}) => {
+const createEventType = (eventName: string = 'MouseEvent', type: string = 'click', props: Object = {}) => { // eslint-disable-line
   const eventNames = {
     MouseEvent,
     KeyboardEvent,
