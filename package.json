@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "node_modules/.bin/rimraf ./lib",
     "build:lib": "node_modules/.bin/babel src/ -d lib/",
-    "build": "npm run lint && npm run clean && npm run build:lib && npm run build:dist && npm run demo:build",
+    "build": "npm run lint && npm run clean && npm run build:lib && npm run demo:build",
     "lint": "node_modules/.bin/eslint src/",
     "test": "NODE_ENV=production node_modules/.bin/karma start test/karma.conf.js",
     "test:watch": "NODE_ENV=development node_modules/.bin/karma start test/karma.conf.js",
