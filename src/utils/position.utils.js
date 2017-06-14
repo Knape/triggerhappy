@@ -42,14 +42,13 @@ export const center = (
   }
 ) => {
   const elementPosition = getPosition(element);
-  const floor = options.floor || true;
   const { x: clientX, y: clientY, w, h } = elementPosition(false);
   const { x: pageX, y: pageY } = elementPosition(true);
   return {
-    clientX: floor ? Math.floor(clientX + (w / 2)) : clientX + (w / 2),
-    clientY: floor ? Math.floor(clientY + (h / 2)) : clientY + (h / 2),
-    pageX: floor ? Math.floor(pageX + (w / 2)) : pageX + (w / 2),
-    pageY: floor ? Math.floor(pageY + (h / 2)) : pageY + (h / 2),
+    clientX: options.floor ? Math.floor(clientX + (w / 2)) : clientX + (w / 2),
+    clientY: options.floor ? Math.floor(clientY + (h / 2)) : clientY + (h / 2),
+    pageX: options.floor ? Math.floor(pageX + (w / 2)) : pageX + (w / 2),
+    pageY: options.floor ? Math.floor(pageY + (h / 2)) : pageY + (h / 2),
     target: element
   };
 };

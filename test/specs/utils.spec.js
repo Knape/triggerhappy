@@ -34,18 +34,15 @@ describe('th', () => {
           pageY: window.innerHeight / 2,
           target: document
         };
-
-        expect(center()).to.eql(p);
+        expect(center(document, { floor: false })).to.eql(p);
       });
 
       it('DOM node center if node is passed', () => {
         const p = { clientX: 50, clientY: 50, pageX: 50, pageY: 50, target: element };
         expect(center(element)).to.eql(p);
-
         element.style.width = '200px';
         const n = { clientX: 100, clientY: 50, pageX: 100, pageY: 50, target: element };
         expect(center(element)).to.eql(n);
-
         document.body.style.marginLeft = '200px';
         element.style.width = '100px';
         const b = { clientX: 250, clientY: 50, pageX: 250, pageY: 50, target: element };
