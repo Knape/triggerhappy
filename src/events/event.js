@@ -4,24 +4,7 @@ import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
 import { first, filterDefaults } from '../utils/helpers.utils';
 import { createTouch } from './touch.utils';
-
-const fixKeyCode = (e: KeyboardEvent, options: Object) => {
-  // http://stackoverflow.com/a/10520017
-  if (e.keyCode !== options.key) {
-    Object.defineProperty(e, 'keyCode', ({
-      get: () => (options.key)
-    }: Object));
-    Object.defineProperty(e, 'charCode', ({
-      get: () => (options.key)
-    }: Object));
-    Object.defineProperty(e, 'which', ({
-      get: () => (options.key)
-    }: Object));
-    Object.defineProperty(e, 'shiftKey', ({
-      get: () => (options.shift)
-    }: Object));
-  }
-};
+import { fixKeyCode } from './keyboard.utils';
 
 const createEventType = (eventName: string, type: string, props: Object) => { // eslint-disable-line
   const eventNames = {
