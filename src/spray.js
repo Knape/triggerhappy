@@ -1,21 +1,23 @@
 // @flow
 
 import events from './event';
+import eventProps from './event-props';
+
 import { isElement, hasKeys } from './utils/helpers.utils';
 import { position } from './utils/position.utils';
 
-
-const matchAndAddition = (extObj: Object = {}) => (acc, key) => {
-  switch (typeof acc[key]) {
+const matchAndAddition = (extObj: Object = {}, event: Object) => (acc, key) => {
+  switch (typeof event[key]) {
     case 'string':
-      acc[key] = extObj[key] || acc[key]; // eslint-disable-line
+      acc[key] = extObj[key] || event[key]; // eslint-disable-line
       break;
     case 'number':
       acc[key] = (key !== 'key') ? // eslint-disable-line
-        acc[key] + extObj[key] || 0 :
+        event[key] + extObj[key] || 0 :
         extObj[key] || 0;
       break;
     default:
+      acc[key] = event[key]; // eslint-disable-line
   }
   return acc;
 };
@@ -31,14 +33,15 @@ const matchAndAddition = (extObj: Object = {}) => (acc, key) => {
 const handlePathObj = (
   path: Function | Object,
   event: MouseEvent | TouchEvent | KeyboardEvent,
+  EventObject: Array<string>,
   newIndex: number
 ): Object => {
   if (typeof path === 'function') {
     return path(event);
   } else if (typeof path === 'object' && !Array.isArray(path) && path) {
-    return Object.keys(event).reduce(matchAndAddition(path), event);
+    return EventObject.reduce(matchAndAddition(path, event), {});
   } else if (typeof path === 'object' && Array.isArray(path) && path) {
-    return Object.keys(event).reduce(matchAndAddition(path[newIndex]), event);
+    return EventObject.reduce(matchAndAddition(path[newIndex], event), {});
   }
   return {};
 };
@@ -58,7 +61,7 @@ const caller = (
   // at the moment we are only calling the first event,
   // but lets start prepare the api for managin an array of events
   return instances(options)
-  .then((event: MouseEvent | TouchEvent | KeyboardEvent) => {
+  .then(({event, eventName}) => {
     const shouldExit = (typeof options.tick === 'function') ?
       options.tick(event) :
       false;
@@ -66,11 +69,12 @@ const caller = (
     const newIndex = index + 1;
     // if we havent reached the end of our cycle return a new caller
     // otherwise just exit the recursive function
+    const eventObj = eventProps[eventName];
     return (newIndex >= options.steps || shouldExit) ? event :
     caller(
       instances,
       newIndex,
-      Object.assign({}, options, handlePathObj(options.path, event, newIndex))
+      Object.assign({}, options, handlePathObj(options.path, event, eventObj, newIndex))
     );
   });
 };
@@ -99,9 +103,12 @@ export const load = (
         }
 
         const combinedOpts = Object.assign({}, options, opt);
-        const newEvent = events(eventName)(triggerName, element, combinedOpts);
-        element.dispatchEvent(newEvent);
-        resolve(newEvent);
+        const event = events(eventName)(triggerName, element, combinedOpts);
+        element.dispatchEvent(event);
+        resolve({
+          event,
+          eventName
+        });
       }, opt.speed || 0);
     });
   };
