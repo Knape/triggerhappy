@@ -80,11 +80,12 @@ export const load = (
   eventName: string = 'MouseEvent',
   triggerName: string = 'click',
   element: HTMLElement | Document = document,
-  options: Object = {}
+  ...rest: Array<Object>
 ): Function => {
   return (opt: Object = {}) => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        const options = rest.reduce(mergeArrayObjects, {});
         // If we pass an element but without specifying its positoin we need
         // to calculate clientX and clientY relative to passed element
         if (isElement(element) && !hasKeys(options, 'clientX', 'clientY')) {
