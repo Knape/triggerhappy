@@ -36,7 +36,10 @@ export const createTouches = (...points: Array<Object>): Object => {
  * @param {HTMLElement} element
  * @param {Object} options
  */
-export const createTouch = (element: HTMLElement | Document, options: Object) => {
+export const createTouch = (
+  element: HTMLElement | Document,
+  options: Object
+): Object => {
   if (!isElement(element)) {
     console.warn('No element was passed to touch, setting document as touch point');
     element = document; // eslint-disable-line

@@ -79,10 +79,7 @@ const createEvent = (eventType: string = 'MouseEvent'): Function => {
     }
 
     // Lets create the event
-    // TODO - Maybe change this to a custom event for each type
     const event = createEventType(eventType, type, props);
-    // const event = createCustomEventType(eventType, type, props);
-
     if (eventType === 'KeyboardEvent') fixKeyCode(event, props);
 
     return event;

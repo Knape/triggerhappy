@@ -3,7 +3,13 @@
 import events from './events/event';
 import eventProps from './events/event-props';
 
-import { isElement, hasKeys, matchAndAddition } from './utils/helpers.utils';
+import {
+  isElement,
+  hasKeys,
+  matchAndAddition,
+  mergeArrayObjects
+} from './utils/helpers.utils';
+
 import { position } from './utils/position.utils';
 
 /**
@@ -40,7 +46,7 @@ const caller = (
   instances: Function,
   index: number,
   options: Object,
-): Event => {
+): Event | Function => {
   // at the moment we are only calling the first event,
   // but lets start prepare the api for managin an array of events
   return instances(options)
