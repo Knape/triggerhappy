@@ -1,24 +1,32 @@
 // @flow
 
-import { filterDefaults, isElement } from '../utils/helpers.utils';
+import { filterDefaults, isElement, hasTouchSupport } from '../utils/helpers.utils';
 import eventProps from './event-props';
 
-const hasTouchSupport = () => typeof Touch !== 'undefined';
-
 /**
- * Creates an Array of Touch Nodes.
+ * Sets the props for a Touch Node.
  *
+ * @param {Object} point
  * @param {HTMLElement} element
- * @param {Object} options
  */
-const createTouchData = (p: Object, element: HTMLElement | Document | null = null) => (
+const createTouchData = (
+  point: Object,
+  element: HTMLElement | Document | null = null
+): Object => (
   filterDefaults(eventProps.Touch, Object.assign({}, {
     identifier: Date.now(),
     target: element
-  }, p))
+  }, point))
 );
 
-export const createTouches = (...points: Array<Object>): Object => {
+/**
+ * Loops over all poitns and creates a touch interface for each object
+ *
+ * @param {Array} points
+ */
+export const createTouches = (
+  ...points: Array<Object>
+): Object => {
   const touches = (hasTouchSupport()) ?
     points.map(p => new Touch(createTouchData(p))) :
     points.map(p => createTouchData(p));
