@@ -2,9 +2,10 @@
 
 import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
-import { first, isElement } from './utils/helpers.utils';
+import { first, filterDefaults } from './utils/helpers.utils';
+import { createTouch } from './utils/touch.utils';
 
-const fixKeyCode = (e: KeyboardEvent, options: Object) => { // eslint-disable-line
+const fixKeyCode = (e: KeyboardEvent, options: Object) => {
   // http://stackoverflow.com/a/10520017
   if (e.keyCode !== options.key) {
     Object.defineProperty(e, 'keyCode', ({
@@ -39,47 +40,12 @@ const createEventType = (eventName: string = 'MouseEvent', type: string = 'click
  * @param {String} type
  * @param {Object} options
  */
-const createCustomEventType = (eventName: string, type: string, props: Object) => {
-  const event = document.createEvent('Event');
-  Object.keys(props).forEach((key) => { event[key] = props[key]; });
-  event.initEvent(type, true, true);
-  return event;
-};
-
-/**
- * Select correct event props based on event type
- *
- * @param {String} type
- * @param {Object} options
- */
-export const filterDefaults = (type: string, options: Object): Object => {
-  const props = eventProps[type].reduce((acc, key) => (
-    Object.assign(acc, { [key]: options[key] })
-  ), {});
-  return props;
-};
-
-/**
- * Create a custom Touch Node.
- *
- * @param {HTMLElement} element
- * @param {Object} options
- */
-const createTouch = (element: HTMLElement | Document, options) => {
-  if (!isElement(element)) {
-    console.warn('No element was passed to touch, setting document as touch point');
-    element = document; // eslint-disable-line
-  }
-
-  const eventParams = filterDefaults('Touch', Object.assign({}, options, {
-    identifier: Date.now(),
-    target: element
-  }));
-
-  // return new Touch(eventParams);
-  // Revert back to plain object untill we have a proper way to handle touch in firefox
-  return eventParams;
-};
+// const createCustomEventType = (eventName: string, type: string, props: Object) => {
+//   const event = document.createEvent('Event');
+//   Object.keys(props).forEach((key) => { event[key] = props[key]; });
+//   event.initEvent(type, true, true);
+//   return event;
+// };
 
 /**
  * Create a custom event.
@@ -105,19 +71,24 @@ const createEvent = (eventType: string = 'MouseEvent'): Function => {
     // Grab the correct event type
     // Attach the default keys/values to the event and then filter and extend
     // it with the passed options values
-    const props = filterDefaults(eventType, Object.assign({}, {
+    const props = filterDefaults(eventProps[eventType], Object.assign({}, {
       type,
       element,
     }, defaults, options));
 
+    // Convert passed clientX, clientY etc to a touchlist
+    // if event type is TouchEvent
     if (eventType === 'TouchEvent' && !props.touches.length) {
-      props.touches = [createTouch(element, options)];
+      const { touches } = createTouch(element, options);
+      props.touches = touches;
     }
 
     // Lets create the event
     // TODO - Maybe change this to a custom event for each type
-    // const event = createEventType(eventType, type, props);
-    const event = createCustomEventType(eventType, type, props);
+    const event = createEventType(eventType, type, props);
+    // const event = createCustomEventType(eventType, type, props);
+
+    if (eventType === 'KeyboardEvent') fixKeyCode(event, props);
 
     return event;
   };

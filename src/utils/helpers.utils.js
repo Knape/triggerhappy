@@ -22,3 +22,15 @@ export const mergeArrayObjects = (acc: Object, next: Object) => {
 };
 
 export const first = (array: Array<any>): any => array[0];
+
+/**
+ * Select correct event props based on event type
+ *
+ * @param {String} type
+ * @param {Object} options
+ */
+export const filterDefaults = (props: Array<string>, options: Object): Object => (
+  props.reduce((acc, key) => (
+    Object.assign(acc, { [key]: options[key] })
+  ), {})
+);
