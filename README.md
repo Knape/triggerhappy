@@ -118,7 +118,7 @@ th.fire('MouseEvent', 'click', document, {
 **returns:** ```Object``` Event triggered
 
 #### eventName ```String```
-For the moment the type can either be `MouseEvent`, `TouchEvent` or `KeybordEvent`
+For the moment the type can either be `MouseEvent`, `TouchEvent`, `KeybordEvent` or `CustomEvent`
 
 * **required:** ```true```
 * **default value:** ```MouseEvent```
@@ -351,11 +351,12 @@ Supply the HTMLElement you want the position to be based on
 
 #### positionObject ```Object```
 Supply an object with x and y keys where the values represent the percentage where we should get our position value
+and if all values returned should be floored
 
-* **required:** ```true```
-* **default value:** ```Null```
+* **required:** ```false```
+* **default value:** ```{ x: 0, y: 0, floor: true }```
 
-### center(element)
+### center(element, options)
 
 > Utility function for getting an elements center position
 
@@ -372,6 +373,12 @@ Supply the HTMLElement you want the position to be based on
 
 * **required:** ```true```
 * **default value:** ```Null```
+
+#### options ```Object```
+Allow to set so all the values returned are floored
+
+* **required:** ```false```
+* **default value:** ```{ floor; true }```
 
 ### touches(Array)
 
