@@ -75,15 +75,20 @@ describe('event', () => {
 
   describe('TouchEvent should', () => {
     it('contain a touch node with correct keys', () => {
+      console.log('1');
       const createdEvent = createEvent('TouchEvent')('touchstart', document, {});
+      console.log(createdEvent.touches);
       expect(createdEvent.touches).to.be.an.array;
     });
 
     it('convert passed clientX, clientY etc to be inside touch Node', () => {
+      console.log('2');
       const createdEvent = createEvent('TouchEvent')('touchstart', document, {
         clientX: 10,
         clientY: 10
       });
+      console.log(createdEvent.touches);
+      console.log('----');
       expect(createdEvent.touches).to.be.an.array;
       expect(createdEvent.touches.length).to.eql(1);
       expect(createdEvent.touches[0].clientX).to.eql(10);

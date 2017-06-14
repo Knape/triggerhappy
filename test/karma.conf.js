@@ -9,7 +9,7 @@ const reporters = [
   'coverage',
 ];
 
-let browsers = ['Chrome', 'Firefox']; // for local builds
+let browsers = ['Chrome']; // for local builds
 const sauceLaunchers = require('./saucelab_browsers');
 
 if (process.env.TRAVIS) {
@@ -51,7 +51,7 @@ module.exports = (config) => {
 
     // list of files / patterns to load in the browser
     files: [{
-      pattern: 'test/**/*.js',
+      pattern: 'test/**/*.spec.js',
       included: true,
       watched: !process.env.TRAVIS || process.env.NODE_ENV !== 'production'
     }, {

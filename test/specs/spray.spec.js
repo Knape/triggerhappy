@@ -11,7 +11,9 @@ const sandbox = sinon.sandbox.create();
 let element;
 
 describe('load and spray', () => {
-  before(() => {});
+  before(() => {
+    fixture.setBase('test');
+  });
 
   beforeEach(() => {
     fixture.load('test.html');
@@ -41,14 +43,14 @@ describe('load and spray', () => {
     });
 
     it('should return a new event from promise', (done) => {
-      load('MouseEvent', 'click')({}).then((event) => {
+      load('MouseEvent', 'click')({}).then(({event}) => {
         expect(event.clientX).to.eql(0);
         done();
       });
     });
 
     it('should return a new event from promise from current element', (done) => {
-      load('MouseEvent', 'click', element)({}).then((event) => {
+      load('MouseEvent', 'click', element)({}).then(({event}) => {
         expect(event.clientX).to.eql(20);
         done();
       });
@@ -56,7 +58,7 @@ describe('load and spray', () => {
 
     it('should return a new event from that promise callback', (done) => {
       load('MouseEvent', 'click', document, center())({})
-      .then((event) => {
+      .then(({event}) => {
         expect(event.clientX).to.not.eql(0);
         done();
       });
@@ -140,8 +142,8 @@ describe('load and spray', () => {
             };
           },
         }).then(({clientX, clientY}) => {
-          expect(clientX).to.eql(centerX + 15);
-          expect(clientY).to.eql(centerY + 3);
+          expect(clientX).to.eql(Math.floor(centerX + 15));
+          expect(clientY).to.eql(Math.floor(centerY + 3));
           done();
         });
       });
@@ -153,8 +155,8 @@ describe('load and spray', () => {
           steps: 4,
           path: {clientX: 5, clientY: 2},
         }).then(({clientX, clientY}) => {
-          expect(clientX).to.eql(centerX + 15);
-          expect(clientY).to.eql(centerY + 6);
+          expect(clientX).to.eql(Math.floor(centerX + 15));
+          expect(clientY).to.eql(Math.floor(centerY + 6));
           done();
         });
       });
@@ -239,8 +241,8 @@ describe('load and spray', () => {
           steps: 4,
           path: {clientX: 5, clientY: 2},
         }).then(({clientX, clientY}) => {
-          expect(clientX).to.eql(centerX + (3 * 5));
-          expect(clientY).to.eql(centerY + (3 * 2));
+          expect(clientX).to.eql(Math.floor(centerX + (3 * 5)));
+          expect(clientY).to.eql(Math.floor(centerY + (3 * 2)));
           fire('MouseEvent', 'moveleave', document, {clientX, clientY});
           done();
         });
