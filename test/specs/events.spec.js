@@ -44,11 +44,6 @@ describe('event', () => {
   describe('createEvent should', () => {
     it('create a mouse click event with defaults if no args are passed', () => {
       const createdEvent = createEvent()();
-      // const hasAllKeys = props.MouseEvent.every(hasKeys(createdEvent));
-      // const d = props.MouseEvent.reduce(attachProps(defaults), {});
-      // d.isTrusted = true;
-      // expect(hasAllKeys).to.eql(true);
-      // expect(Object.keys(createdEvent).sort()).to.eql(Object.keys(d).sort());
       expect(createdEvent.type).to.eql('click');
     });
 
@@ -71,6 +66,10 @@ describe('event', () => {
       const createdEvent = createEvent('TouchEvent')();
       expect(createdEvent.type).to.eql('touchstart');
     });
+    it('create a touch touchstart event with defaults if only TouchEvent is passed', () => {
+      const createdEvent = createEvent('CustomEvent')();
+      expect(createdEvent.type).to.eql('click');
+    });
   });
 
   describe('TouchEvent should', () => {
@@ -88,22 +87,6 @@ describe('event', () => {
       expect(createdEvent.touches.length).to.eql(1);
       expect(createdEvent.touches[0].clientX).to.eql(10);
     });
-    //
-    // it('allow to pass multiple touches inside touch node', () => {
-    //   const createdEvent = createEvent('TouchEvent')('touchstart', document, {
-    //     touches: [{
-    //       clientX: 10,
-    //       clientY: 10
-    //     }, {
-    //       clientX: 20,
-    //       clientY: 20
-    //     }]
-    //   });
-    //   expect(createdEvent.touches).to.be.an.array;
-    //   expect(createdEvent.touches.length).to.eql(2);
-    //   expect(createdEvent.touches[0].clientX).to.eql(10);
-    //   expect(createdEvent.touches[1].clientX).to.eql(20);
-    // });
 
     it('allow to pass multiple touches inside touch node', () => {
       const createdEvent = createEvent('TouchEvent')('touchstart', document, touches(position(), position()));
