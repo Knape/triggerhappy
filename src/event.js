@@ -23,7 +23,7 @@ const fixKeyCode = (e: KeyboardEvent, options: Object) => {
   }
 };
 
-const createEventType = (eventName: string = 'MouseEvent', type: string = 'click', props: Object = {}) => { // eslint-disable-line
+const createEventType = (eventName: string, type: string, props: Object) => { // eslint-disable-line
   const eventNames = {
     MouseEvent,
     KeyboardEvent,
