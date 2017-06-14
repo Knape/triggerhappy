@@ -35,15 +35,21 @@ const getPosition = (element: HTMLElement | Document): Function => {
  *
  * @param {Node} element
 **/
-export const center = (element: HTMLElement | Document = document) => {
+export const center = (
+  element: HTMLElement | Document = document,
+  options: {} = {
+    floor: true
+  }
+) => {
   const elementPosition = getPosition(element);
+  const floor = options.floor || true;
   const { x: clientX, y: clientY, w, h } = elementPosition(false);
   const { x: pageX, y: pageY } = elementPosition(true);
   return {
-    clientX: clientX + (w / 2),
-    clientY: clientY + (h / 2),
-    pageX: pageX + (w / 2),
-    pageY: pageY + (h / 2),
+    clientX: floor ? Math.floor(clientX + (w / 2)) : clientX + (w / 2),
+    clientY: floor ? Math.floor(clientY + (h / 2)) : clientY + (h / 2),
+    pageX: floor ? Math.floor(pageX + (w / 2)) : pageX + (w / 2),
+    pageY: floor ? Math.floor(pageY + (h / 2)) : pageY + (h / 2),
     target: element
   };
 };
