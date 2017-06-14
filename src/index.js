@@ -2,8 +2,8 @@ import fire from './fire';
 import { load, spray } from './spray';
 import rampage from './rampage';
 import { position, center } from './utils/position.utils';
-import touches from './utils/touch.utils';
-import keyCode from './utils/keyboard.utils';
+import touches from './events/touch.utils';
+import keyCode from './events/keyboard.utils';
 
 
 const th = {

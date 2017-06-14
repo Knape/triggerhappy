@@ -1,7 +1,7 @@
 // @flow
 
-import { filterDefaults, isElement } from './helpers.utils';
-import eventProps from '../event-props';
+import { filterDefaults, isElement } from '../utils/helpers.utils';
+import eventProps from './event-props';
 
 const hasTouchSupport = () => typeof Touch !== 'undefined';
 
@@ -18,7 +18,7 @@ const createTouchData = (p: Object, element: HTMLElement | Document | null = nul
   }, p))
 );
 
-export default (...points: Array<Object>): Object => {
+export const createTouches = (...points: Array<Object>): Object => {
   const touches = (hasTouchSupport()) ?
     points.map(p => new Touch(createTouchData(p))) :
     points.map(p => createTouchData(p));
@@ -52,3 +52,5 @@ export const createTouch = (element: HTMLElement | Document, options: Object) =>
     changedTouches: [touches],
   };
 };
+
+export default createTouches;

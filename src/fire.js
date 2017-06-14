@@ -1,6 +1,6 @@
 // @flow
 
-import event from './event';
+import event from './events/event';
 import { isElement, hasKeys, mergeArrayObjects } from './utils/helpers.utils';
 import { position } from './utils/position.utils';
 

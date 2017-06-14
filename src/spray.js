@@ -1,27 +1,10 @@
 // @flow
 
-import events from './event';
-import eventProps from './event-props';
+import events from './events/event';
+import eventProps from './events/event-props';
 
-import { isElement, hasKeys } from './utils/helpers.utils';
+import { isElement, hasKeys, matchAndAddition } from './utils/helpers.utils';
 import { position } from './utils/position.utils';
-
-const matchAndAddition = (extObj: Object = {}, event: Object) => (acc, key) => {
-  switch (typeof event[key]) {
-    case 'string':
-      acc[key] = extObj[key] || event[key]; // eslint-disable-line
-      break;
-    case 'number':
-      acc[key] = (key !== 'key') ? // eslint-disable-line
-        event[key] + extObj[key] || 0 :
-        extObj[key] || 0;
-      break;
-    default:
-      acc[key] = event[key]; // eslint-disable-line
-  }
-  return acc;
-};
-
 
 /**
  * Fire path callback function if its defined otherwise take the path

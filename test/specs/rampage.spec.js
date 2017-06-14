@@ -1,7 +1,7 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import { rampage } from '../../src/';
+import rampage from '../../src/rampage';
 
 const sandbox = sinon.sandbox.create();
 

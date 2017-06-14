@@ -6,13 +6,13 @@ import createEvent, {
   mouseEvent,
   keybordEvent,
   touchEvent
-} from '../../src/event';
+} from '../../src/events/event';
 
 import { position } from '../../src/utils/position.utils';
-import touches from '../../src/utils/touch.utils';
+import touches from '../../src/events/touch.utils';
 
-import defaults from '../../src/defaults';
-import props from '../../src/event-props';
+import defaults from '../../src/events/defaults';
+import props from '../../src/events/event-props';
 
 const hasKeys = obj => m => Object.keys(obj).find(o => m === o);
 
@@ -75,20 +75,15 @@ describe('event', () => {
 
   describe('TouchEvent should', () => {
     it('contain a touch node with correct keys', () => {
-      console.log('1');
       const createdEvent = createEvent('TouchEvent')('touchstart', document, {});
-      console.log(createdEvent.touches);
       expect(createdEvent.touches).to.be.an.array;
     });
 
     it('convert passed clientX, clientY etc to be inside touch Node', () => {
-      console.log('2');
       const createdEvent = createEvent('TouchEvent')('touchstart', document, {
         clientX: 10,
         clientY: 10
       });
-      console.log(createdEvent.touches);
-      console.log('----');
       expect(createdEvent.touches).to.be.an.array;
       expect(createdEvent.touches.length).to.eql(1);
       expect(createdEvent.touches[0].clientX).to.eql(10);

@@ -2,7 +2,7 @@
 /* eslint no-unused-expressions: 0 */
 
 import { center, position } from '../../src/utils/position.utils';
-import touches from '../../src/utils/touch.utils';
+import touches from '../../src/events/touch.utils';
 import { hasKeys } from '../../src/utils/helpers.utils';
 
 let element;

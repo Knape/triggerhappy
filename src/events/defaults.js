@@ -25,5 +25,6 @@ export default {
 export const eventMap = {
   MouseEvent: ['click', 'dblclick', 'mouseup', 'mousedown', 'mouseenter', 'mousemove', 'mouseleave'],
   KeyboardEvent: ['keypress', 'keydown', 'keyup'],
-  TouchEvent: ['touchstart', 'touchmove', 'touchend', 'touchcancel']
+  TouchEvent: ['touchstart', 'touchmove', 'touchend', 'touchcancel'],
+  CustomEvent: []
 };

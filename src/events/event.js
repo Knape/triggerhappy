@@ -2,8 +2,8 @@
 
 import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
-import { first, filterDefaults } from './utils/helpers.utils';
-import { createTouch } from './utils/touch.utils';
+import { first, filterDefaults } from '../utils/helpers.utils';
+import { createTouch } from './touch.utils';
 
 const fixKeyCode = (e: KeyboardEvent, options: Object) => {
   // http://stackoverflow.com/a/10520017
