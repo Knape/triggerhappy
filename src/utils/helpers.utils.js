@@ -88,3 +88,11 @@ export const matchAndAddition = (
   }
   return acc;
 };
+
+/**
+ * Small helpers to detect if we have our constructor functions
+ */
+export const hasTouchSupport = () => typeof Touch !== 'undefined';
+export const hasTouchEventSupport = () => typeof TouchEvent !== 'undefined';
+export const hasKeyboardEventSupport = () => typeof KeyboardEvent !== 'undefined';
+export const hasMouseEventSupport = () => typeof MouseEvent !== 'undefined';

@@ -2,33 +2,45 @@
 
 import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
-import { first, filterDefaults } from '../utils/helpers.utils';
 import { createTouch } from './touch.utils';
 import { fixKeyCode } from './keyboard.utils';
 
-const createEventType = (eventName: string, type: string, props: Object) => { // eslint-disable-line
-  const eventNames = {
-    MouseEvent,
-    KeyboardEvent,
-    TouchEvent,
-  };
-  return new eventNames[eventName](type, props);
-};
+import {
+  first,
+  filterDefaults,
+  hasTouchEventSupport,
+  hasMouseEventSupport,
+  hasKeyboardEventSupport,
+} from '../utils/helpers.utils';
 
 /**
- * Create a custom event
- * We will use this function untill createEventType is 100% working
+ * Creates a Native Event and falls back to
+ * document.createEvent if event does not exist
  *
  * @param {String} eventName
  * @param {String} type
  * @param {Object} options
  */
-// const createCustomEventType = (eventName: string, type: string, props: Object) => {
-//   const event = document.createEvent('Event');
-//   Object.keys(props).forEach((key) => { event[key] = props[key]; });
-//   event.initEvent(type, true, true);
-//   return event;
-// };
+const createEventType = (
+  eventName: string,
+  type: string,
+  props: Object
+): Event => { // eslint-disable-line
+  const eventNames = {
+    MouseEvent: (hasMouseEventSupport()) ? MouseEvent : null,
+    KeyboardEvent: (hasKeyboardEventSupport()) ? KeyboardEvent : null,
+    TouchEvent: (hasTouchEventSupport()) ? TouchEvent : null,
+  };
+
+  if (!eventNames[eventName]) {
+    const event = document.createEvent('Event');
+    Object.keys(props).forEach((key) => { event[key] = props[key]; });
+    event.initEvent(type, true, true);
+    return event;
+  }
+
+  return new eventNames[eventName](type, props);
+};
 
 /**
  * Create a custom event.
