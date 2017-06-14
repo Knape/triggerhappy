@@ -9,9 +9,11 @@ import { isElement } from './helpers.utils';
  * @param {Node} element
  * @param {boolean} scroll
 **/
-const getPosition = (element: HTMLElement | Document): Function => {
+const getPosition = (
+  element: HTMLElement | Document
+): Function => {
   const isEl = isElement(element);
-  const rect = element instanceof HTMLElement ? element.getBoundingClientRect() : {};
+  const rect = isEl ? element.getBoundingClientRect() : {};
   return (scroll: boolean): Object => {
     const scrollTop = (scroll && document && document.body) ? document.body.scrollTop : 0;
     const scrollLeft = (scroll && document && document.body) ? document.body.scrollLeft : 0;
@@ -37,7 +39,7 @@ const getPosition = (element: HTMLElement | Document): Function => {
 **/
 export const center = (
   element: HTMLElement | Document = document,
-  options: {} = {
+  options: Object = {
     floor: true
   }
 ) => {
@@ -57,20 +59,20 @@ export const center = (
  * Get a given position of the passed DOM element in procent
  *
  * @param {Node} element
- * @param {Object} obj
+ * @param {Object} options
 **/
 export const position = (
   element: HTMLElement | Document = document,
-  obj: Object = { x: 0, y: 0}
+  options: Object = { x: 0, y: 0, floor: true }
 ): Object => {
   const elementPosition = getPosition(element);
   const { x: clientX, y: clientY, w, h } = elementPosition(false);
   const { x: pageX, y: pageY } = elementPosition(true);
   return {
-    clientX: clientX + ((w / 100) * obj.x),
-    clientY: clientY + ((h / 100) * obj.y),
-    pageX: pageX + ((w / 100) * obj.x),
-    pageY: pageY + ((h / 100) * obj.y),
+    clientX: options.floor ? Math.floor(clientX + ((w / 100) * options.x)) : clientX + ((w / 100) * options.x),
+    clientY: options.floor ? Math.floor(clientY + ((h / 100) * options.y)) : clientY + ((h / 100) * options.y),
+    pageX: options.floor ? Math.floor(pageX + ((w / 100) * options.x)) : pageX + ((w / 100) * options.x),
+    pageY: options.floor ? Math.floor(pageY + ((h / 100) * options.y)) : pageY + ((h / 100) * options.y),
     target: element
   };
 };
