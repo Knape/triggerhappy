@@ -58,8 +58,8 @@ describe('th.fire', () => {
   it('should fire on specified element if element is provided', (done) => {
     const getEvent = (e) => {
       innerTwo.removeEventListener('click', getEvent);
-      expect(e.clientX).to.eql(20);
-      expect(e.clientY).to.eql(40);
+      expect(e.clientX).to.eql(innerTwo.getBoundingClientRect().left);
+      expect(e.clientY).to.eql(innerTwo.getBoundingClientRect().top);
       done();
     };
 
@@ -71,20 +71,20 @@ describe('th.fire', () => {
   it('should fire on specified element if element is provided with correct position', (done) => {
     const getEvent = (e) => {
       innerThree.removeEventListener('click', getEvent);
-      expect(e.clientX).to.eql(44);
-      expect(e.clientY).to.eql(40);
+      expect(e.clientX).to.eql(innerThree.getBoundingClientRect().left);
+      expect(e.clientY).to.eql(innerThree.getBoundingClientRect().top);
       done();
     };
 
     innerThree.addEventListener('click', getEvent);
-
+    const { width, left } = innerThree.getBoundingClientRect()
     fire('MouseEvent', 'click', innerThree);
   });
 
   it('should return the event from the method', () => {
     const e = fire('MouseEvent', 'click', innerThree);
-    expect(e.clientX).to.eql(44);
-    expect(e.clientY).to.eql(40);
+    expect(e.clientX).to.eql(innerThree.getBoundingClientRect().left);
+    expect(e.clientY).to.eql(innerThree.getBoundingClientRect().top);
   });
 
   describe('MouseEvent', () => {
