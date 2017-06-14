@@ -1,7 +1,10 @@
 # Changelog
 
 ### In progress
-
+- Enable custom events
+- Execute Native TouchEvent, KeyboardEvent and MouseEvent if possible
+- Adds floor option to position and center
+-
 ---
 
 ### Releases
