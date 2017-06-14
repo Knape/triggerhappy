@@ -1,7 +1,9 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import { center, position, touches, hasKeys } from '../../src/utils';
+import { center, position } from '../../src/utils/position.utils';
+import touches from '../../src/utils/touch.utils';
+import { hasKeys } from '../../src/utils/helpers.utils';
 
 let element;
 

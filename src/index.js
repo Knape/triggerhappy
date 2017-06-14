@@ -1,7 +1,10 @@
 import fire from './fire';
 import { load, spray } from './spray';
 import rampage from './rampage';
-import { position, center, touches } from './utils';
+import { position, center } from './utils/position.utils';
+import touches from './utils/touch.utils';
+import keyCode from './utils/keyboard.utils';
+
 
 const th = {
   fire,
@@ -11,6 +14,7 @@ const th = {
   position,
   center,
   touches,
+  keyCode
 };
 
 export default th;
@@ -23,4 +27,5 @@ export {
   position,
   center,
   touches,
+  keyCode
 };

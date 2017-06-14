@@ -8,9 +8,8 @@ import createEvent, {
   touchEvent
 } from '../../src/event';
 
-import {
-  position, touches
-} from '../../src/utils';
+import { position } from '../../src/utils/position.utils';
+import touches from '../../src/utils/touch.utils';
 
 import defaults from '../../src/defaults';
 import props from '../../src/event-props';
@@ -89,7 +88,7 @@ describe('event', () => {
       expect(createdEvent.touches.length).to.eql(1);
       expect(createdEvent.touches[0].clientX).to.eql(10);
     });
-    // 
+    //
     // it('allow to pass multiple touches inside touch node', () => {
     //   const createdEvent = createEvent('TouchEvent')('touchstart', document, {
     //     touches: [{

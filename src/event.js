@@ -2,7 +2,7 @@
 
 import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
-import { first, isElement } from './utils';
+import { first, isElement } from './utils/helpers.utils';
 
 const fixKeyCode = (e: KeyboardEvent, options: Object) => { // eslint-disable-line
   // http://stackoverflow.com/a/10520017

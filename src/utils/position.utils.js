@@ -1,23 +1,6 @@
 // @flow
 
-import keycode from 'keycode';
-
-export const isElement = (
-  element: HTMLElement | Document
-): boolean => (
-  element && element instanceof HTMLElement
-);
-
-/**
- * Check if all the keys exist inside an object and return true or false
- *
- * @param {Object} obj
- * @param {Array<string>} props
-**/
-export const hasKeys = (obj: Object, ...props: Array<string>): boolean => {
-  const keys = Object.keys(obj);
-  return props.every(prop => keys.find(k => prop === k && obj[k]));
-};
+import { isElement } from './helpers.utils';
 
 /**
  * Helper function to get x and y position + height and width of a given element,
@@ -86,31 +69,3 @@ export const position = (
     target: element
   };
 };
-
-export const touches = (...points: Array<Object>): Object => {
-  // const t = points.map((p, i) => new Touch(Object.assign({}, p, { identifier: i})));
-  // Revert back to plain object untill we have a proper way to handle touch in firefox
-  const t = points.map((p, i) => Object.assign({}, p, { identifier: i}));
-  return {
-    touches: t,
-    targetTouches: t,
-    changedTouches: t,
-  };
-};
-
-export const keyCode = (
-  key: number | string,
-  options: Object = {}
-): Object => {
-  const isString = isNaN(parseInt(key, 10));
-  const transformedKey = isString ? key : parseInt(key, 10);
-  return Object.assign({}, options, {
-    key: keycode(transformedKey).toString()
-  });
-};
-
-export const mergeArrayObjects = (acc: Object, next: Object) => {
-  return Object.assign({}, acc, next);
-};
-
-export const first = (array: Array<any>): any => array[0];

@@ -1,7 +1,8 @@
 // @flow
 
 import event from './event';
-import { position, isElement, hasKeys, mergeArrayObjects } from './utils';
+import { isElement, hasKeys, mergeArrayObjects } from './utils/helpers.utils';
+import { position } from './utils/position.utils';
 
 const fire = (
   eventName: string = 'MouseEvent',

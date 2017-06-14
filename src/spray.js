@@ -1,7 +1,9 @@
 // @flow
 
 import events from './event';
-import { position, isElement, hasKeys } from './utils';
+import { isElement, hasKeys } from './utils/helpers.utils';
+import { position } from './utils/position.utils';
+
 
 const matchAndAddition = (extObj: Object = {}) => (acc, key) => {
   switch (typeof acc[key]) {

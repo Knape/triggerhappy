@@ -3,7 +3,8 @@
 
 import fire from '../../src/fire';
 import { load, spray } from '../../src/spray';
-import { keyCode, center } from '../../src/utils';
+import keyCode from '../../src/utils/keyboard.utils';
+import { center } from '../../src/utils/position.utils';
 
 const sandbox = sinon.sandbox.create();
 

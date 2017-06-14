@@ -1,7 +1,16 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import th, { fire, load, spray, rampage, position } from '../../src/';
+import th, {
+  fire,
+  load,
+  spray,
+  rampage,
+  position,
+  keyCode,
+  touches,
+  center
+} from '../../src/';
 
 describe('th', () => {
   before(() => {});
@@ -32,5 +41,17 @@ describe('th', () => {
 
   it('should contain util methods, position()', () => {
     expect(typeof position).to.eql('function');
+  });
+
+  it('should contain util methods, center()', () => {
+    expect(typeof center).to.eql('function');
+  });
+
+  it('should contain util methods, keyCode()', () => {
+    expect(typeof keyCode).to.eql('function');
+  });
+
+  it('should contain util methods, touches()', () => {
+    expect(typeof touches).to.eql('function');
   });
 });
