@@ -1,5 +1,8 @@
 # Triggerhappy
 
+[![Build Status](https://travis-ci.org/Knape/triggerhappy.svg?branch=master)](https://travis-ci.org/Knape/triggerhappy)
+[![Coverage Status](https://coveralls.io/repos/github/Knape/triggerhappy/badge.svg?branch=master)](https://coveralls.io/github/Knape/triggerhappy?branch=master)
+
 > **Triggerhappy -** Easily create native events and event animations, mostly for testing purposes. Both for node and the browser
 
 ## Description
