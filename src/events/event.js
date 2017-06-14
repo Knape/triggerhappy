@@ -57,7 +57,7 @@ const createEvent = (eventType: string = 'MouseEvent'): Function => {
     }
 
     // Instead of just exiting the event, set our type to the default
-    if (!eventMap[eventType].find(e => e === type)) {
+    if (!eventMap[eventType].find(e => e === type) && eventType !== 'CustomEvent') {
       console.warn(`Event interface does not contained passed event: ${type}`);
       console.warn(`Setting event to default (${first(eventMap[eventType])}) for ${eventType}`);
       type = first(eventMap[eventType]); // eslint-disable-line

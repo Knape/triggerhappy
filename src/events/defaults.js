@@ -19,7 +19,8 @@ export default {
   screenX: 0,
   screenY: 0,
   shift: false,
-  view: window
+  view: window,
+  details: {},
 };
 
 export const eventMap = {

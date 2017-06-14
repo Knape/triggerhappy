@@ -5,6 +5,8 @@ export default {
     'isTrusted',
   ],
   MouseEvent: [
+    'bubbles',
+    'cancelable',
     'view',
     'detail',
     'screenX',
@@ -21,7 +23,8 @@ export default {
     'relatedTarget',
   ],
   KeyboardEvent: [
-    // 'view',
+    'bubbles',
+    'cancelable',
     'ctrl',
     'alt',
     'shift',
@@ -48,5 +51,8 @@ export default {
     'pageX',
     'pageY',
     'target',
-  ]
+  ],
+  CustomEvent: [
+    'details'
+  ],
 };
