@@ -271,25 +271,31 @@ Will be called 10 times before exiting
 
 ### path `Object | Function<Object>`
 
-Defines the path that each event iteration will use. See /example folder for more
+Defines the path that each event iteration will use.
 
 ```es6
 // Simulate a double click
+// When passing an object each iteration will add to the current value
+// i.e. for each iteration clientX will add 50 to its current value
 const clip = th.load('MouseEvent', 'click');
 th.spray(clip, {
-	path: {clientX:50, clientY: 50}
+	path: { clientX: 50, clientY: 50 }
 });
 ```
 
 
 ```es6
 // Simulate a drag horizontal effect
+// When passing a function the returned object will be assigned to the
+// current object and passed to the new event
+// In this case it takes its current clientX and adds one on each iteration
+// Each function callback also supplies a secondary argument, the current index
 const clip = th.load('TouchEvent', 'touchmove');
 th.spray(clip, {
-	path: ({clientX, clientX}) => ({
+	path: ({clientX, clientX}, index) => ({
 		// do something with the events
 		// and return a new clientX and clientY
-		clientX: clientX += 1,
+		clientX: clientX + 1,
 		clientY: clientY,
 	})
 });
@@ -300,7 +306,7 @@ th.spray(clip, {
 // Simulate a pinch out effect
 const clip = th.load('TouchEvent', 'touchmove', document, touches(center(), center()));
 th.spray(clip, {
-	path: ({touches}) => ({
+	path: ({touches}, index) => ({
 		// Returns an array of events in the same order
 		// as we pass our clips
 		touches: touches.map({clientX, clientY}, i) => ({
@@ -320,7 +326,7 @@ Return true to exit the spray function, good for doing calculation instead of st
 const clip = th.load('MouseEvent', 'click');
 th.spray(clip, {
 	times: Infinitive,
-	tick: (event) => {
+	tick: (event, index) => {
 		// do something with the event
 		// return true to exit the spray function
 	}

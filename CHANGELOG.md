@@ -6,6 +6,10 @@
 
 ### Releases
 
+### `1.1.1` — June 15, 2017
+
+- Adds an index value as secondary argument to path and tick in spray method
+
 ### `1.1.0` — June 15, 2017
 
 - Enable custom events
