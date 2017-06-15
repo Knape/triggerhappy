@@ -26,7 +26,7 @@ const handlePathObj = (
   newIndex: number
 ): Object => {
   if (typeof path === 'function') {
-    return path(event);
+    return path(event, newIndex);
   } else if (typeof path === 'object' && !Array.isArray(path) && path) {
     return EventObject.reduce(matchAndAddition(path, event), {});
   } else if (typeof path === 'object' && Array.isArray(path) && path) {
@@ -52,7 +52,7 @@ const caller = (
   return instances(options)
   .then(({event, eventName}) => {
     const shouldExit = (typeof options.tick === 'function') ?
-      options.tick(event) :
+      options.tick(event, index) :
       false;
 
     const newIndex = index + 1;
