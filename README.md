@@ -17,7 +17,7 @@ Triggerhappy lets you create custom javascript events easily without all the boi
 
 ## Installation
 
-Install the package from [npm](https://npmjs.com/release)
+Install the package from [npm](https://npmjs.com/triggerhappy)
 
 ```bash
 npm install --save-dev triggerhappy
@@ -219,8 +219,8 @@ Pass the returned function from load to spray either as a pure function or as an
 
 ```es6
 // Start by creating a touch start event and return the current position that we fired on
-const {clientX, clientY} = th.fire('TouchEvent', 'touchstart');
-const clip = th.load('TouchEvent', 'touchmove', {clientX, clientY});
+const {clientX, clientY} = th.fire('TouchEvent', 'touchstart' document);
+const clip = th.load('TouchEvent', 'touchmove', document, {clientX, clientY});
 // then we fire 10 touchmove events
 th.spray(clip, {
 	speed: 10,
