@@ -57,7 +57,7 @@ import th from 'triggerhappy';
 th.fire('TouchEvent', 'touchstart');
 const clip = th.load('TouchEvent', 'touchmove');
 th.spray(clip, {
-	path: ({touches}) => {
+	path: ({touches}, index) => {
 		// Always good to extend the object so we
 		// return the same keys
 		return touches: touches.map((touch, i) => {
@@ -83,7 +83,7 @@ const touches = th.touches(th.position(img, {x: 40, y: 50}), th.position(img, {x
 th.fire('TouchEvent', 'touchstart', img);
 const clip = th.load('TouchEvent', 'touchmove', img, touches);
 th.spray(clip, {
-	path: ({touches}) => ({
+	path: ({touches}, index) => ({
 		// Always good to extend the object so we
 		// return the same keys
 		return touches: touches.map((touch, i) => {
@@ -225,8 +225,8 @@ const clip = th.load('TouchEvent', 'touchmove', {clientX, clientY});
 th.spray(clip, {
 	speed: 10,
 	steps: 10,
-	path: (event) => (event),
-	tick: () => {},
+	path: (event, index) => (event),
+	tick: (event, index) => {},
 })
 .then(({clientX, clientY}) => {
 	// and finally when we are done we end the cycle with a touchend event
