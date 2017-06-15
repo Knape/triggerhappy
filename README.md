@@ -7,11 +7,11 @@
 
 ## Description
 
-Triggerhappy lets you create custom javascript events easily without all the boilerplate it usaully requires. Need to test touch events, keyboard events or mouse events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
+Triggerhappy lets you create custom javascript events easily without all the boilerplate it usually requires. Need to test touch events, keyboard events or mouse events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
 
 
 ## Features
-* Create a barebone events with a single line
+* Create a bare-bone events with a single line
 * Create custom event animations with support for multiple events
 * Helper functions for getting the clientX, clientY position, converting keyCodes etc
 
@@ -118,14 +118,14 @@ th.fire('MouseEvent', 'click', document, {
 **returns:** ```Object``` Event triggered
 
 #### eventName ```String```
-For the moment the type can either be `MouseEvent`, `TouchEvent`, `KeybordEvent` or `CustomEvent`
+For the moment the type can either be `MouseEvent`, `TouchEvent`, `KeyboardEvent` or `CustomEvent`
 
 * **required:** ```true```
 * **default value:** ```MouseEvent```
 
 #### triggerName ```String```
 Depends on the current eventName passed to `th.fire`
-Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of availbable triggers
+Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of available triggers
 
 
 * **required:** ```true```
@@ -163,14 +163,14 @@ const clip = th.load('MouseEvent', document, {
 * **returns:** ```Function```
 
 #### eventName ```String```
-For the moment the eventName can either be `MouseEvent`, `TouchEvent` or `KeybordEvent`
+For the moment the eventName can either be `MouseEvent`, `TouchEvent` or `KeyboardEvent`
 
 * **required:** ```true```
 * **default value:** ```MouseEvent```
 
 #### triggerName ```String```
 Depends on the current eventName passed to `th.fire`
-Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of availbable triggers
+Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of available triggers
 
 
 * **required:** ```true```
@@ -210,7 +210,7 @@ th.spray(clip)
 
 
 #### loadInstance ```Function```
-Pass the returned function from load to spray either as a pure function or as an array of functions. Passing an array is usefull for testing multituch behavours.
+Pass the returned function from load to spray either as a pure function or as an array of functions. Passing an array is useful for testing multitouch behaviors.
 
 * **required:** ```true```
 * **default value:** ```null```
@@ -221,7 +221,7 @@ Pass the returned function from load to spray either as a pure function or as an
 // Start by creating a touch start event and return the current position that we fired on
 const {clientX, clientY} = th.fire('TouchEvent', 'touchstart');
 const clip = th.load('TouchEvent', 'touchmove', {clientX, clientY});
-// then we fire 10 toucmove events
+// then we fire 10 touchmove events
 th.spray(clip, {
 	speed: 10,
 	steps: 10,
@@ -229,8 +229,8 @@ th.spray(clip, {
 	tick: () => {},
 })
 .then(({clientX, clientY}) => {
-	// and finaly when we are done we end the cycle with a touchend event
-	// dont forget to pass our last current position
+	// and finally when we are done we end the cycle with a touchend event
+	// don't forget to pass our last current position
 	th.fire('TouchEvent', 'touchend', {clientX, clientY})
 );
 ```
@@ -256,7 +256,7 @@ Will be called with a delay of 10 ms between each cycle
 
 ### steps `Number`
 
-Sets how many itterations spray should fire before calling then
+Sets how many iterations spray should fire before calling then
 
 ```es6
 const clip = th.load('MouseEvent', 'click');
@@ -283,7 +283,7 @@ th.spray(clip, {
 
 
 ```es6
-// Simulate a drag horizotal effect
+// Simulate a drag horizontal effect
 const clip = th.load('TouchEvent', 'touchmove');
 th.spray(clip, {
 	path: ({clientX, clientX}) => ({
@@ -301,7 +301,7 @@ th.spray(clip, {
 const clip = th.load('TouchEvent', 'touchmove', document, touches(center(), center()));
 th.spray(clip, {
 	path: ({touches}) => ({
-		// Returns an array of evente in. the same order
+		// Returns an array of events in the same order
 		// as we pass our clips
 		touches: touches.map({clientX, clientY}, i) => ({
 			clientX: (i === 1) ? clientX += 1 : clientX -= 1,
@@ -410,7 +410,7 @@ th.keyCode('enter')); // => '13'
 **returns:** ```string```
 
 #### keycode ```string```
-either supp,y the name of the letter or the number it represent
+either supply the name of the letter or the number it represent
 
 * **required:** ```true```
 * **default value:** ```null```
