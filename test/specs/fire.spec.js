@@ -1,7 +1,7 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import fire from '../../src/fire';
+import { fire } from '../../src/fire';
 import { center } from '../../src/utils/position.utils';
 
 let element;

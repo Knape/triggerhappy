@@ -1,8 +1,8 @@
 /* globals it, describe, before, beforeEach, expect, chai, sinonChai, sinon, fixture */
 /* eslint no-unused-expressions: 0 */
 
-import fire from '../../src/fire';
-import { load, spray } from '../../src/spray';
+import { fire, load } from '../../src/fire';
+import spray from '../../src/spray';
 import keyCode from '../../src/events/keyboard.utils';
 import { center } from '../../src/utils/position.utils';
 
@@ -136,12 +136,14 @@ describe('load and spray', () => {
         spray(clip, {
           steps: 4,
           path: ({clientX, clientY}) => {
+            console.log('bom', clientX);
             return {
               clientX: clientX + 5,
               clientY: clientY + 1,
             };
           },
         }).then(({clientX, clientY}) => {
+          console.log('clientX', clientX, 'centerX', centerX);
           expect(clientX).to.eql(Math.floor(centerX + 15));
           expect(clientY).to.eql(Math.floor(centerY + 3));
           done();

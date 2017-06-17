@@ -1,16 +1,7 @@
 // @flow
 
-import events from './events/event';
 import eventProps from './events/event-props';
-
-import {
-  isElement,
-  hasKeys,
-  matchAndAddition,
-  mergeArrayObjects
-} from './utils/helpers.utils';
-
-import { position } from './utils/position.utils';
+import { matchAndAddition, } from './utils/helpers.utils';
 
 /**
  * Fire path callback function if its defined otherwise take the path
@@ -69,48 +60,12 @@ const caller = (
 };
 
 /**
- * Load Instance, works as fire but waiths for the spray method to call it.
- *
- * @param {String} eventName
- * @param {String} triggerName
- * @param {Node} element
- * @param {Object} options
-**/
-export const load = (
-  eventName: string = 'MouseEvent',
-  triggerName: string = 'click',
-  element: HTMLElement | Document = document,
-  ...rest: Array<Object>
-): Function => {
-  return (opt: Object = {}) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const options = rest.reduce(mergeArrayObjects, {});
-        // If we pass an element but without specifying its positoin we need
-        // to calculate clientX and clientY relative to passed element
-        if (isElement(element) && !hasKeys(options, 'clientX', 'clientY')) {
-          Object.assign(options, position(element));
-        }
-
-        const combinedOpts = Object.assign({}, options, opt);
-        const event = events(eventName)(triggerName, element, combinedOpts);
-        element.dispatchEvent(event);
-        resolve({
-          event,
-          eventName
-        });
-      }, opt.speed || 0);
-    });
-  };
-};
-
-/**
  * Spray method.
  *
  * @param {Function, Array} instance
  * @param {Object} options
 **/
-export const spray = (instance: Function, options: Object = {
+export default (instance: Function, options: Object = {
   speed: 100,
   steps: 10,
   path: null,
