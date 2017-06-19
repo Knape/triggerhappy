@@ -35,29 +35,29 @@ describe('load and spray', () => {
 
     it('should be a higher order function', () => {
       expect(typeof load).to.eql('function');
-      expect(typeof load('MouseEvent', 'click')).to.eql('function');
+      expect(typeof load('click')).to.eql('function');
     });
 
     it('should return a Promise Object', () => {
-      expect(typeof load('MouseEvent', 'click')({})).to.eql('object');
+      expect(typeof load('click')({})).to.eql('object');
     });
 
     it('should return a new event from promise', (done) => {
-      load('MouseEvent', 'click')({}).then(({event}) => {
+      load('click')({}).then(({event}) => {
         expect(event.clientX).to.eql(0);
         done();
       });
     });
 
     it('should return a new event from promise from current element', (done) => {
-      load('MouseEvent', 'click', element)({}).then(({event}) => {
+      load('click', element)({}).then(({event}) => {
         expect(event.clientX).to.eql(20);
         done();
       });
     });
 
     it('should return a new event from that promise callback', (done) => {
-      load('MouseEvent', 'click', document, center())({})
+      load('click', document, center())({})
       .then(({event}) => {
         expect(event.clientX).to.not.eql(0);
         done();
@@ -73,7 +73,7 @@ describe('load and spray', () => {
     it('should take a load hoc and fire 10 times as default', (done) => {
       const eventSpy = sinon.spy();
       document.addEventListener('click', eventSpy);
-      const clip = load('MouseEvent', 'click', document, center());
+      const clip = load('click', document, center());
       spray(clip).then(() => {
         const times = eventSpy.printf('%c');
         expect(eventSpy.called).to.be.true;
@@ -85,7 +85,7 @@ describe('load and spray', () => {
     it('should take a load hoc and fire 15 times', (done) => {
       const eventSpy = sinon.spy();
       document.addEventListener('click', eventSpy);
-      const clip = load('MouseEvent', 'click', document, center());
+      const clip = load('click', document, center());
       spray(clip, {
         steps: 15
       }).then(() => {
@@ -99,7 +99,7 @@ describe('load and spray', () => {
     it('should take a load hoc and fire 4 times', (done) => {
       const eventSpy = sinon.spy();
       document.addEventListener('click', eventSpy);
-      const clip = load('MouseEvent', 'click', document, center());
+      const clip = load('click', document, center());
       spray(clip, {
         steps: 4
       }).then(() => {
@@ -114,7 +114,7 @@ describe('load and spray', () => {
       const eventSpy = sinon.spy();
       const pathSpy = sinon.spy();
       document.addEventListener('click', eventSpy);
-      const clip = load('MouseEvent', 'click', document, center());
+      const clip = load('click', document, center());
       spray(clip, {
         steps: 4,
         path: pathSpy,
@@ -132,18 +132,16 @@ describe('load and spray', () => {
     describe('should update clientX and clientY path', () => {
       it('when it it a function', (done) => {
         const { clientX: centerX, clientY: centerY } = center();
-        const clip = load('MouseEvent', 'click', document, center());
+        const clip = load('click', document, center());
         spray(clip, {
           steps: 4,
           path: ({clientX, clientY}) => {
-            console.log('bom', clientX);
             return {
               clientX: clientX + 5,
               clientY: clientY + 1,
             };
           },
         }).then(({clientX, clientY}) => {
-          console.log('clientX', clientX, 'centerX', centerX);
           expect(clientX).to.eql(Math.floor(centerX + 15));
           expect(clientY).to.eql(Math.floor(centerY + 3));
           done();
@@ -152,7 +150,7 @@ describe('load and spray', () => {
 
       it('when it it an object', (done) => {
         const { clientX: centerX, clientY: centerY } = center();
-        const clip = load('MouseEvent', 'click', document, center());
+        const clip = load('click', document, center());
         spray(clip, {
           steps: 4,
           path: {clientX: 5, clientY: 2},
@@ -168,7 +166,7 @@ describe('load and spray', () => {
       const eventSpy = sinon.spy();
       const tickSpy = sinon.spy();
       document.addEventListener('click', eventSpy);
-      const clip = load('MouseEvent', 'click', document, center());
+      const clip = load('click', document, center());
       spray(clip, {
         steps: 4,
         tick: tickSpy,
@@ -190,7 +188,7 @@ describe('load and spray', () => {
     describe('KeyboardEvent', () => {
       it('should fire multiple keys in a sequence from path function', (done) => {
         const keysPressed = [];
-        const clip = load('KeyboardEvent', 'keypress', document, keyCode('a'));
+        const clip = load('keypress', document, keyCode('a'));
         spray(clip, {
           steps: 4,
           path: ({key}) => {
@@ -212,7 +210,7 @@ describe('load and spray', () => {
         const convertKeys = (...keys) => keys.map(key => keyCode(key));
         const convertedKeys = convertKeys('a', 'b', 'c', 'd');
 
-        const clip = load('KeyboardEvent', 'keypress', document, keyCode('a'));
+        const clip = load('keypress', document, keyCode('a'));
         spray(clip, {
           steps: 4,
           path: convertedKeys,
@@ -245,7 +243,7 @@ describe('load and spray', () => {
         }).then(({clientX, clientY}) => {
           expect(clientX).to.eql(Math.floor(centerX + (3 * 5)));
           expect(clientY).to.eql(Math.floor(centerY + (3 * 2)));
-          fire('MouseEvent', 'moveleave', document, {clientX, clientY});
+          fire('moveleave', document, {clientX, clientY});
           done();
         });
       });
