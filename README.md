@@ -30,7 +30,7 @@ npm install --save-dev triggerhappy
 import th from 'triggerhappy';
 
 // fires a click event at 0x0 relative to elements position
-th.fire('MouseEvent', 'click') // -> event
+th.fire('click') // -> event
 ```
 
 ```es6
@@ -38,7 +38,7 @@ import th from 'triggerhappy';
 
 // fires a click event at center of screen
 const center = th.center(window);
-th.fire('MouseEvent', 'click', document, center) // -> event
+th.fire('click', document, center) // -> event
 ```
 
 ```es6
@@ -47,15 +47,15 @@ import th from 'triggerhappy';
 // fire a touch event at 20% top and left of the image
 const image = document.querySelector('img');
 const imgCenter = th.position(image, {x: 20, y: 20});
-th.fire('MouseEvent', 'click', image, imgCenter) // -> event
+th.fire('click', image, imgCenter) // -> event
 ```
 
 ```es6
 import th from 'triggerhappy';
 
-// Simulate a drag horizotal effect (one finger)
-th.fire('TouchEvent', 'touchstart');
-const clip = th.load('TouchEvent', 'touchmove');
+// Simulate a drag horizontal effect (one finger)
+th.fire('touchstart');
+const clip = th.load('touchmove');
 th.spray(clip, {
 	path: ({touches}, index) => {
 		// Always good to extend the object so we
@@ -70,7 +70,7 @@ th.spray(clip, {
 		})
 	}
 }).then((e) => {
-	th.fire('TouchEvent', 'touchend', document, e);
+	th.fire('touchend', document, e);
 });
 ```
 
@@ -80,8 +80,8 @@ import th, { touches, center } from 'triggerhappy';
 // Simulate a pinch out effect
 const img = document.querySelector('img');
 const touches = th.touches(th.position(img, {x: 40, y: 50}), th.position(img, {x: 60, y: 50}))
-th.fire('TouchEvent', 'touchstart', img);
-const clip = th.load('TouchEvent', 'touchmove', img, touches);
+th.fire('touchstart', img);
+const clip = th.load('touchmove', img, touches);
 th.spray(clip, {
 	path: ({touches}, index) => ({
 		// Always good to extend the object so we
@@ -95,17 +95,17 @@ th.spray(clip, {
 		})
 	})
 }).then((e) => {
-	th.fire('TouchEvent', 'touchend', img, e);
+	th.fire('touchend', img, e);
 });
 ```
 
 ## API
 
-> The API is still in heavy development, so dont hesitate to create a pull request
+> The API is still in heavy development, so don't hesitate to create a pull request
 
 ## Fire
 
-### th.fire(eventName, triggerName, [element], [options])
+### th.fire(triggerName, [element], [options])
 
 > Fires an event specified by the type on the element
 
