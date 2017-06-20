@@ -21,9 +21,11 @@ describe('load and spray', () => {
     document.body.style.margin = '20px';
     element.style.width = '100px';
     element.style.height = '100px';
+    sinon.spy(console, 'warn');
   });
 
   afterEach(() => {
+    console.warn.restore();
     sandbox.restore();
   });
 
@@ -52,6 +54,7 @@ describe('load and spray', () => {
     it('should return a new event from promise from current element', (done) => {
       load('click', element)({}).then(({event}) => {
         expect(event.clientX).to.eql(20);
+        expect(console.warn).not.to.have.been.called;
         done();
       });
     });
@@ -60,6 +63,7 @@ describe('load and spray', () => {
       load('MouseEvent', 'click', document, center())({})
       .then(({event}) => {
         expect(event.clientX).to.not.eql(0);
+        expect(console.warn).to.have.been.called;
         done();
       });
     });
@@ -68,6 +72,7 @@ describe('load and spray', () => {
       load('click', document, center())({})
       .then(({event}) => {
         expect(event.clientX).to.not.eql(0);
+        expect(console.warn).not.to.have.been.called;
         done();
       });
     });

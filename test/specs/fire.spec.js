@@ -24,6 +24,11 @@ describe('th.fire', () => {
     document.body.style.margin = '20px';
     element.style.width = '100px';
     element.style.height = '100px';
+    sinon.spy(console, 'warn');
+  });
+
+  afterEach(() => {
+    console.warn.restore();
   });
 
   it('should be a fucntion', () => {
@@ -36,6 +41,7 @@ describe('th.fire', () => {
         document.removeEventListener('click', getEvent);
         expect(e.type).to.eql('click');
         expect(type(e)).to.eql('MouseEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(e.clientX).to.eql(0);
         expect(e.clientY).to.eql(0);
         done();
@@ -50,6 +56,7 @@ describe('th.fire', () => {
         document.removeEventListener('click', getEvent);
         expect(e.type).to.eql('click');
         expect(type(e)).to.eql('MouseEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(Math.floor(e.clientX)).to.eql(Math.floor(window.innerWidth / 2));
         expect(Math.floor(e.clientY)).to.eql(Math.floor(window.innerHeight / 2));
         done();
@@ -65,6 +72,7 @@ describe('th.fire', () => {
         document.removeEventListener('click', getEvent);
         expect(e.type).to.eql('click');
         expect(type(e)).to.eql('MouseEvent');
+        expect(console.warn).to.have.been.called;
         expect(Math.floor(e.clientX)).to.eql(Math.floor(window.innerWidth / 2));
         expect(Math.floor(e.clientY)).to.eql(Math.floor(window.innerHeight / 2));
         done();
@@ -80,6 +88,7 @@ describe('th.fire', () => {
         innerTwo.removeEventListener('click', getEvent);
         expect(e.type).to.eql('click');
         expect(type(e)).to.eql('MouseEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(e.clientX).to.eql(innerTwo.getBoundingClientRect().left);
         expect(e.clientY).to.eql(innerTwo.getBoundingClientRect().top);
         done();
@@ -95,6 +104,7 @@ describe('th.fire', () => {
         innerThree.removeEventListener('click', getEvent);
         expect(e.type).to.eql('click');
         expect(type(e)).to.eql('MouseEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(e.clientX).to.eql(innerThree.getBoundingClientRect().left);
         expect(e.clientY).to.eql(innerThree.getBoundingClientRect().top);
         done();
@@ -109,6 +119,7 @@ describe('th.fire', () => {
       const e = fire('click', innerThree);
       expect(e.type).to.eql('click');
       expect(type(e)).to.eql('MouseEvent');
+      expect(console.warn).not.to.have.been.called;
       expect(e.clientX).to.eql(innerThree.getBoundingClientRect().left);
       expect(e.clientY).to.eql(innerThree.getBoundingClientRect().top);
     });
@@ -119,6 +130,7 @@ describe('th.fire', () => {
       const getEvent = (e) => {
         expect(e.type).to.eql('keypress');
         expect(type(e)).to.eql('KeyboardEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(e.key).to.eql('13');
         done();
       };
@@ -131,6 +143,7 @@ describe('th.fire', () => {
       const getEvent = (e) => {
         expect(e.type).to.eql('keypress');
         expect(type(e)).to.eql('KeyboardEvent');
+        expect(console.warn).to.have.been.called;
         expect(e.key).to.eql('13');
         done();
       };
@@ -143,6 +156,7 @@ describe('th.fire', () => {
       const getEvent = (e) => {
         expect(e.type).to.eql('keypress');
         expect(type(e)).to.eql('KeyboardEvent');
+        expect(console.warn).not.to.have.been.called;
         expect(e.key).not.to.eql('13');
         expect(e.key).to.eql('65');
         done();
@@ -157,6 +171,7 @@ describe('th.fire', () => {
     it('should fire a touch touchstart event', (done) => {
       const getEvent = (e) => {
         expect(e.type).to.eql('touchstart');
+        expect(console.warn).not.to.have.been.called;
         done();
       };
 
@@ -167,6 +182,7 @@ describe('th.fire', () => {
     it('should be able to handle depricated arguments style', (done) => {
       const getEvent = (e) => {
         expect(e.type).to.eql('touchstart');
+        expect(console.warn).to.have.been.called;
         done();
       };
 
@@ -180,6 +196,7 @@ describe('th.fire', () => {
       const getEvent = (e) => {
         expect(e.type).to.eql('yada');
         expect(type(e)).to.eql('CustomEvent');
+        expect(console.warn).not.to.have.been.called;
         done();
       };
 
