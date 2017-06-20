@@ -1,8 +1,22 @@
 // @flow
 
 import events, { getEventType } from './events/event';
-import { isElement, hasKeys, mergeArrayObjects } from './utils/helpers.utils';
 import { position } from './utils/position.utils';
+
+import {
+  isElement,
+  hasKeys,
+  mergeArrayObjects,
+} from './utils/helpers.utils';
+
+
+const isOldArgStyle = el => typeof el !== 'string';
+
+export const logDeprecationWarning = (method: string): void => {
+  console.warn(`You are passing a deprecated argument style to ${method}`);
+  console.warn('Please update your code to the latest API');
+  console.warn('This will result in an error in the next version');
+};
 
 /**
  *
@@ -35,40 +49,59 @@ const createEventWrapper = (
 };
 
 export const fire = (
-  triggerName: string = 'click',
+  eventType: string = 'click',
   element: HTMLElement | Document | string = document,
   ...rest: Array<Object | HTMLElement | Document>
 ): Event => {
+  const isNewStyle = isOldArgStyle(element);
+
+  if (!isNewStyle) logDeprecationWarning('fire');
+
+  // If we are passing arguments as the new style we
+  // need to find out what constructor we will use
+  const eventName = (isNewStyle) ?
+    getEventType(eventType) : eventType;
+
+  // Create the correct event beased on how we suppyly our arguments
   return (typeof element !== 'string') ?
-    createEventWrapper(getEventType(triggerName), triggerName, element, rest) :
-    createEventWrapper(triggerName, element, rest[0], rest.slice(1));
+    createEventWrapper(eventName, eventType, element, rest) :
+    createEventWrapper(eventName, element, rest[0], rest.slice(1));
 };
 
 /**
  * Load Instance, works as fire but waiths for the spray method to call it.
  *
  * @param {String} eventName
- * @param {String} triggerName
+ * @param {String} eventType
  * @param {Node} element
  * @param {Object} options
 **/
 export const load = (
-  triggerName: string = 'click',
+  eventType: string = 'click',
   element: HTMLElement | Document | string = document,
   ...rest: Array<Object | HTMLElement | Document>
 ): Function => {
   return (opt: Object = {}) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const eventName = (typeof element !== 'string') ?
-          getEventType(triggerName) : triggerName;
+        const isNewStyle = isOldArgStyle(element);
 
-        const options = (typeof element !== 'string') ?
+        if (!isNewStyle) logDeprecationWarning('load');
+
+        // If we are passing arguments as the new style we
+        // need to find out what constructor we will use
+        const eventName = (isNewStyle) ?
+          getEventType(eventType) : eventType;
+
+        // Depending on what kind of arguments style we are using
+        // we nned to assign the correct argument to options
+        const options = (isNewStyle) ?
           Object.assign({}, rest.reduce(mergeArrayObjects, {}), opt) :
           Object.assign({}, rest.slice(1).reduce(mergeArrayObjects, {}), opt);
 
-        const event = (typeof element !== 'string') ?
-          createEventWrapper(eventName, triggerName, element, options) :
+        // Create the correct event beased on how we suppyly our arguments
+        const event = (typeof element !== 'string') ? // Otherwise flow compains
+          createEventWrapper(eventName, eventType, element, options) :
           createEventWrapper(eventName, element, rest[0], options);
         resolve({ event, eventName });
       }, opt.speed || 0);
