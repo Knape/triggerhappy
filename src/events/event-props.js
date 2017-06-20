@@ -52,6 +52,12 @@ export default {
     'pageY',
     'target',
   ],
+  FocusEvent: [
+
+  ],
+  UIEvent: [
+
+  ],
   CustomEvent: [
     'details'
   ],

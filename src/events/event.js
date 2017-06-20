@@ -11,6 +11,8 @@ import {
   hasTouchEventSupport,
   hasMouseEventSupport,
   hasKeyboardEventSupport,
+  hasFocusEventSupport,
+  hasUIEventSupport,
   hasCustomEventSupport,
 } from '../utils/helpers.utils';
 
@@ -38,6 +40,8 @@ const createEventType = (
     MouseEvent: (hasMouseEventSupport()) ? MouseEvent : null,
     KeyboardEvent: (hasKeyboardEventSupport()) ? KeyboardEvent : null,
     TouchEvent: (hasTouchEventSupport()) ? TouchEvent : null,
+    FocusEvent: (hasFocusEventSupport()) ? FocusEvent : null,
+    UIEvent: (hasUIEventSupport()) ? UIEvent : null,
     CustomEvent: (hasCustomEventSupport()) ? CustomEvent : null,
   };
 
