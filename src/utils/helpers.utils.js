@@ -45,7 +45,7 @@ export const mergeArrayObjects = (
  * @param {Array} array
 **/
 export const first = (array: Array<any>, defaults: ?string): any => (
-  Array.isArray(array) ? array[0] : defaults
+  Array.isArray(array) && array[0] ? array[0] : defaults
 );
 
 /**
