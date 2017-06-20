@@ -57,6 +57,14 @@ describe('load and spray', () => {
     });
 
     it('should return a new event from that promise callback', (done) => {
+      load('MouseEvent', 'click', document, center())({})
+      .then(({event}) => {
+        expect(event.clientX).to.not.eql(0);
+        done();
+      });
+    });
+
+    it('should return a new event from that promise callback', (done) => {
       load('click', document, center())({})
       .then(({event}) => {
         expect(event.clientX).to.not.eql(0);
@@ -235,8 +243,8 @@ describe('load and spray', () => {
 
       it('a move event', (done) => {
         const { clientX: centerX, clientY: centerY } = center();
-        fire('MouseEvent', 'moveenter', document, center());
-        const clip = load('MouseEvent', 'mousemove', document, center());
+        fire('mouseenter', document, center());
+        const clip = load('mousemove', document, center());
         spray(clip, {
           steps: 4,
           path: {clientX: 5, clientY: 2},

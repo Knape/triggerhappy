@@ -14,10 +14,6 @@ import touches from '../../src/events/touch.utils';
 import defaults from '../../src/events/defaults';
 import props from '../../src/events/event-props';
 
-const hasKeys = obj => m => Object.keys(obj).find(o => m === o);
-
-const attachProps = obj => (acc, m) => Object.assign(acc, { [m]: obj[m] });
-
 let element;
 
 describe('event', () => {
