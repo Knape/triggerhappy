@@ -1,22 +1,25 @@
 // @flow
 
-import events from './events/event';
-import { eventMap } from './events/defaults';
-import { isElement, hasKeys, mergeArrayObjects, first } from './utils/helpers.utils';
+import events, { getEventType } from './events/event';
+import { isElement, hasKeys, mergeArrayObjects } from './utils/helpers.utils';
 import { position } from './utils/position.utils';
 
-const getEvent = (triggerName: string): string => {
-  const filteredKeys = Object
-  .keys(eventMap)
-  .filter(eventKey => eventMap[eventKey].find(name => name === triggerName));
-  return first(filteredKeys, 'CustomEvent');
-};
-
-const createEventWrapperDepricated = (
+/**
+ *
+ * As we have two ways of passing arguents to both fire and load
+ * we need to convert them to the same argumentstyle
+ *
+ * @param {String} eventName
+ * @param {String} eventType
+ * @param {Node} element
+ * @param {Array} rest
+ *
+**/
+const createEventWrapper = (
   eventName: string = 'MouseEvent',
   eventType: string = 'click',
   element: HTMLElement | Document = document,
-  ...rest: Array<Object>
+  ...rest: Array<any>
 ): Event => {
   const opts = rest.reduce(mergeArrayObjects, {});
   // Append the correct client and page props to
@@ -37,8 +40,8 @@ export const fire = (
   ...rest: Array<Object | HTMLElement | Document>
 ): Event => {
   return (typeof element !== 'string') ?
-    createEventWrapperDepricated(getEvent(triggerName), triggerName, element, rest) :
-    createEventWrapperDepricated(triggerName, element, rest[0], rest.slice(1));
+    createEventWrapper(getEventType(triggerName), triggerName, element, rest) :
+    createEventWrapper(triggerName, element, rest[0], rest.slice(1));
 };
 
 /**
@@ -58,15 +61,15 @@ export const load = (
     return new Promise((resolve) => {
       setTimeout(() => {
         const eventName = (typeof element !== 'string') ?
-          getEvent(triggerName) : triggerName;
+          getEventType(triggerName) : triggerName;
 
         const options = (typeof element !== 'string') ?
           Object.assign({}, rest.reduce(mergeArrayObjects, {}), opt) :
           Object.assign({}, rest.slice(1).reduce(mergeArrayObjects, {}), opt);
 
         const event = (typeof element !== 'string') ?
-          createEventWrapperDepricated(eventName, triggerName, element, options) :
-          createEventWrapperDepricated(eventName, element, rest[0], options);
+          createEventWrapper(eventName, triggerName, element, options) :
+          createEventWrapper(eventName, element, rest[0], options);
         resolve({ event, eventName });
       }, opt.speed || 0);
     });

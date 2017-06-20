@@ -98,3 +98,4 @@ export const hasTouchSupport = () => typeof Touch !== 'undefined';
 export const hasTouchEventSupport = () => typeof TouchEvent !== 'undefined';
 export const hasKeyboardEventSupport = () => typeof KeyboardEvent !== 'undefined';
 export const hasMouseEventSupport = () => typeof MouseEvent !== 'undefined';
+export const hasCustomEventSupport = () => typeof CustomEvent !== 'undefined';
