@@ -7,7 +7,7 @@
 
 ## Description
 
-Triggerhappy lets you create custom javascript events easily without all the boilerplate it usually requires. Need to test touch events, keyboard events or mouse events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points an a lot more. Works well with karma and mocha. See the api for more information.
+Triggerhappy lets you create custom javascript events easily without all the boilerplate it usually requires. Need to test touch events, keyboard events or mouse events inside your application, triggerhappy lets you do that. It also has a couple of helper function for creating custom animations between points and a lot more. Works well with karma and mocha. See the api for more information.
 
 
 ## Features
