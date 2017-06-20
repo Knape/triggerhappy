@@ -1,5 +1,5 @@
-import fire from './fire';
-import { load, spray } from './spray';
+import { fire, load } from './fire';
+import spray from './spray';
 import rampage from './rampage';
 import { position, center } from './utils/position.utils';
 import touches from './events/touch.utils';

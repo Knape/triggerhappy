@@ -11,7 +11,15 @@ import {
   hasTouchEventSupport,
   hasMouseEventSupport,
   hasKeyboardEventSupport,
+  hasCustomEventSupport,
 } from '../utils/helpers.utils';
+
+export const getEventType = (triggerName: string): string => {
+  const filteredKeys = Object
+  .keys(eventMap)
+  .filter(eventKey => eventMap[eventKey].find(name => name === triggerName));
+  return first(filteredKeys, 'CustomEvent');
+};
 
 /**
  * Creates a Native Event and falls back to
@@ -30,6 +38,7 @@ const createEventType = (
     MouseEvent: (hasMouseEventSupport()) ? MouseEvent : null,
     KeyboardEvent: (hasKeyboardEventSupport()) ? KeyboardEvent : null,
     TouchEvent: (hasTouchEventSupport()) ? TouchEvent : null,
+    CustomEvent: (hasCustomEventSupport()) ? CustomEvent : null,
   };
 
   if (!eventNames[eventName]) {

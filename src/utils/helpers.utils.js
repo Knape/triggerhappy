@@ -44,7 +44,9 @@ export const mergeArrayObjects = (
  *
  * @param {Array} array
 **/
-export const first = (array: Array<any>): any => array[0];
+export const first = (array: Array<any>, defaults: ?string): any => (
+  Array.isArray(array) && array[0] ? array[0] : defaults
+);
 
 /**
  * Select correct event props based on event type
@@ -96,3 +98,4 @@ export const hasTouchSupport = () => typeof Touch !== 'undefined';
 export const hasTouchEventSupport = () => typeof TouchEvent !== 'undefined';
 export const hasKeyboardEventSupport = () => typeof KeyboardEvent !== 'undefined';
 export const hasMouseEventSupport = () => typeof MouseEvent !== 'undefined';
+export const hasCustomEventSupport = () => typeof CustomEvent !== 'undefined';

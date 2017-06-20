@@ -6,6 +6,11 @@
 
 ### Releases
 
+### `1.2.0` — June 20, 2017
+
+- ***Beaking change*** - removes first argument in fire and load, so you now only need to pass event-type i.e. click to the method.
+- Adds CustomEvent, everything not found in other events will be fired as a custom event
+
 ### `1.1.1` — June 15, 2017
 
 - Adds an index value as secondary argument to path and tick in spray method
