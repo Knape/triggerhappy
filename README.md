@@ -105,12 +105,12 @@ th.spray(clip, {
 
 ## Fire
 
-### th.fire(triggerName, [element], [options])
+### th.fire(eventName, [element], [options])
 
 > Fires an event specified by the type on the element
 
 ```es6
-th.fire('MouseEvent', 'click', document, {
+th.fire('click', document, {
   ...
 });
 ```
@@ -118,15 +118,7 @@ th.fire('MouseEvent', 'click', document, {
 **returns:** ```Object``` Event triggered
 
 #### eventName ```String```
-For the moment the type can either be `MouseEvent`, `TouchEvent`, `KeyboardEvent` or `CustomEvent`
-
-* **required:** ```true```
-* **default value:** ```MouseEvent```
-
-#### triggerName ```String```
-Depends on the current eventName passed to `th.fire`
 Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of available triggers
-
 
 * **required:** ```true```
 * **default value:** ```click```
@@ -149,12 +141,12 @@ For a full list of passable options, see the [MDN documentation](https://develop
 
 ## Load
 
-### th.load(eventName, triggerName, [element], [options])
+### th.load(eventName, [element], [options])
 
 > Higher order method for configure a fire event to be used with spray.
 
 ```es6
-const clip = th.load('MouseEvent', document, {
+const clip = th.load('click', document, {
   ...
 })
 
@@ -163,15 +155,7 @@ const clip = th.load('MouseEvent', document, {
 * **returns:** ```Function```
 
 #### eventName ```String```
-For the moment the eventName can either be `MouseEvent`, `TouchEvent` or `KeyboardEvent`
-
-* **required:** ```true```
-* **default value:** ```MouseEvent```
-
-#### triggerName ```String```
-Depends on the current eventName passed to `th.fire`
 Check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Event) for a list of available triggers
-
 
 * **required:** ```true```
 * **default value:** ```click```
@@ -200,7 +184,7 @@ For a full list of passable options, see the [MDN documentation](https://develop
 > The spray method is intended to emulate a constant behavior, for example a pinch or a drag.
 
 ```es6
-const clip = th.load('MouseEvent', 'click');
+const clip = th.load('click');
 th.spray(clip)
 .then((event) => {});
 ```
@@ -219,8 +203,8 @@ Pass the returned function from load to spray either as a pure function or as an
 
 ```es6
 // Start by creating a touch start event and return the current position that we fired on
-const {clientX, clientY} = th.fire('TouchEvent', 'touchstart' document);
-const clip = th.load('TouchEvent', 'touchmove', document, {clientX, clientY});
+const {clientX, clientY} = th.fire('touchstart' document);
+const clip = th.load('touchmove', document, {clientX, clientY});
 // then we fire 10 touchmove events
 th.spray(clip, {
 	speed: 10,
@@ -231,7 +215,7 @@ th.spray(clip, {
 .then(({clientX, clientY}) => {
 	// and finally when we are done we end the cycle with a touchend event
 	// don't forget to pass our last current position
-	th.fire('TouchEvent', 'touchend', {clientX, clientY})
+	th.fire('touchend', {clientX, clientY})
 );
 ```
 
@@ -247,7 +231,7 @@ Explanation of each option follows:
 Sets the speed between each event that gets fired
 
 ```es6
-const clip = th.load('MouseEvent', 'click');
+const clip = th.load('click');
 th.spray(clip, {
 	speed: 10,
 })
@@ -259,7 +243,7 @@ Will be called with a delay of 10 ms between each cycle
 Sets how many iterations spray should fire before calling then
 
 ```es6
-const clip = th.load('MouseEvent', 'click');
+const clip = th.load('click');
 th.spray(clip, {
 	steps: 10,
 }).then(() => {
@@ -277,7 +261,7 @@ Defines the path that each event iteration will use.
 // Simulate a double click
 // When passing an object each iteration will add to the current value
 // i.e. for each iteration clientX will add 50 to its current value
-const clip = th.load('MouseEvent', 'click');
+const clip = th.load('click');
 th.spray(clip, {
 	path: { clientX: 50, clientY: 50 }
 });
@@ -290,7 +274,7 @@ th.spray(clip, {
 // current object and passed to the new event
 // In this case it takes its current clientX and adds one on each iteration
 // Each function callback also supplies a secondary argument, the current index
-const clip = th.load('TouchEvent', 'touchmove');
+const clip = th.load('touchmove');
 th.spray(clip, {
 	path: ({clientX, clientX}, index) => ({
 		// do something with the events
@@ -304,7 +288,7 @@ th.spray(clip, {
 
 ```es6
 // Simulate a pinch out effect
-const clip = th.load('TouchEvent', 'touchmove', document, touches(center(), center()));
+const clip = th.load('touchmove', document, touches(center(), center()));
 th.spray(clip, {
 	path: ({touches}, index) => ({
 		// Returns an array of events in the same order
@@ -323,7 +307,7 @@ Callback function for each event that gets fired, get called last after the even
 Return true to exit the spray function, good for doing calculation instead of steps.
 
 ```es6
-const clip = th.load('MouseEvent', 'click');
+const clip = th.load('click');
 th.spray(clip, {
 	times: Infinitive,
 	tick: (event, index) => {
