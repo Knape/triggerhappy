@@ -86,8 +86,8 @@ const createEvent = (eventType: string = 'MouseEvent'): Function => {
     // Convert passed clientX, clientY etc to a touchlist
     // if event type is TouchEvent
     if (eventType === 'TouchEvent' && !props.touches.length) {
-      const { touches } = createTouch(element, options);
-      props.touches = touches;
+      const touches = createTouch(element, options);
+      Object.assign(props, touches);
     }
 
     // Lets create the event
