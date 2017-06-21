@@ -6,6 +6,7 @@ const coverageReporters = [
 ];
 const reporters = [
   'progress',
+  'mocha',
   'coverage',
 ];
 
@@ -98,6 +99,7 @@ module.exports = (config) => {
     plugins: [
       'karma-webpack',
       'karma-mocha',
+      'karma-mocha-reporter',
       'karma-coverage',
       'karma-spec-reporter',
       'karma-chai',
