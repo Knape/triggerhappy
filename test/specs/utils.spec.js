@@ -3,6 +3,7 @@
 
 import { center, position } from '../../src/utils/position.utils';
 import touches from '../../src/events/touch.utils';
+import keyCode from '../../src/events/keyboard.utils';
 import { hasKeys } from '../../src/utils/helpers.utils';
 
 let element;
@@ -92,8 +93,26 @@ describe('th', () => {
     describe('should return an array of points', () => {
       it('window center if no arguments are passed', () => {
         const points = touches(position(), center(), position());
-        expect(points).to.be.an.array;
+        expect(points).to.be.an.object;
+        expect(points).to.have.any.keys('touches');
+        expect(points.touches).to.have.lengthOf(3);
       });
+    });
+  });
+
+  describe('keyCode', () => {
+    it('should be a function', () => {
+      expect(typeof keyCode).to.eql('function');
+    });
+
+    it('should convert name to key string and nest it inside key object', () => {
+      const keyboardOptions = keyCode('enter');
+      expect(keyboardOptions.key).to.eql('13')
+    });
+
+    it('should convert key and merge object', () => {
+      const keyboardOptions = keyCode('65', {});
+      expect(keyboardOptions.key).to.eql('a')
     });
   });
 
