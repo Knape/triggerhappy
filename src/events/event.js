@@ -3,7 +3,6 @@
 import defaults, { eventMap } from './defaults';
 import eventProps from './event-props';
 import { createTouch } from './touch.utils';
-import { fixKeyCode } from './keyboard.utils';
 
 import {
   first,
@@ -93,7 +92,6 @@ const createEvent = (eventType: string = 'MouseEvent'): Function => {
 
     // Lets create the event
     const event = createEventType(eventType, type, props);
-    if (eventType === 'KeyboardEvent') fixKeyCode(event, props);
 
     return event;
   };
