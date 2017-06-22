@@ -2,6 +2,8 @@
 
 ### In progress
 
+- FocusEvent and UIEvent events
+
 ---
 
 ### Releases
